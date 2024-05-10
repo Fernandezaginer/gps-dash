@@ -46,12 +46,9 @@ def rpi_buffer_thread_fnc():
     # -----------------------------------------------------
 
     def process_show(data):
-        if data == "get_new_df":
-            global send_list
-            socket_send(str(send_list))
-            send_list = []
-        else:
-            pass
+        global send_list
+        socket_send(str(send_list))
+        send_list = []
 
 
 
