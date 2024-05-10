@@ -8,18 +8,20 @@ from dash.dcc import Dropdown
 import dash_bootstrap_components as dbc
 import plotly.express as px
 from jupyter_dash import JupyterDash
+import dash_daq as daq
 import warnings
 warnings.filterwarnings("ignore")
 
 
 # Libs
 import pandas as pd
-
-import dash_daq as daq
+import requests
 
 
 
 # Configuration
+REQUEST_IP = "192.168.10.2"
+REQUEST_PORT = "8000"
 UPDATE_INTERVAL = 2*1000
 TITLE = "GPS Interface"
 
@@ -87,12 +89,10 @@ def main():
                         ],
                         width={'size': 5, 'offset': 0, 'order': 2}),    
                     ]),
-                    html.H5(id="title-sub2", children="Altitude"),
                     dcc.Graph(id='height', style={'width': '60vh', 'height': '40vh'})
                 ],
                 width={'size': 4, 'offset': 0, 'order': 2}), 
 
-            html.Hr()
             ]),
 
         ], width={'size': 14, 'offset': 0, 'order': 1}),
@@ -112,13 +112,11 @@ def main():
                    Input('interval-component', 'n_intervals'),
                    prevent_initial_call=True)
     def update_text(n):
-        if ctx.triggered_id == "interval-component":
-          pass
-          
         return px.scatter(x=[1,2,3], y=[1,2,3]), px.scatter(x=[1,2,3], y=[1,2,3])
 
-    app.run_server(debug=True)
 
+
+    app.run_server(debug=True)
 
 
 

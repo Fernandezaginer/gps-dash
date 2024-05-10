@@ -11,10 +11,8 @@ def rpi_buffer_thread_fnc():
     import pandas as pd
     from io import StringIO
     import ast
+    import defines
 
-    READER_PORT = 8000
-    SERVER_PORT = 8001
-    SHOW_PORT = 8002
 
 
     global send_list
@@ -23,12 +21,12 @@ def rpi_buffer_thread_fnc():
     # Listen to data_reader and data_show:
     ip = socket.gethostbyname(socket.gethostname())
     socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    socket.bind((ip, SERVER_PORT))
     print("\n\nBuffer server started OK ...")
+    socket.bind((ip, defines.BUFFER_PORT))
 
     # Send to data_show
     def socket_send(string):
-        socket.sendto(bytes(string, "utf-8"), (ip, SHOW_PORT))
+        socket.sendto(bytes(string, "utf-8"), (ip, defines.REQUEST_PORT))
 
 
 
@@ -66,9 +64,11 @@ def rpi_buffer_thread_fnc():
         data, add = socket.recvfrom(65536)
         #print(add)
         data = data.decode("utf-8")
-        if add[1] == READER_PORT:
+        if add[1] == defines.READER_PORT:
             process_reader(data)
-        if add[1] == SHOW_PORT:
+            print("+ buffer")
+        if add[1] == defines.REQUEST_PORT:
             process_show(data)
+            print("- buffer")
 
     socket.close()
