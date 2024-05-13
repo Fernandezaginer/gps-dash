@@ -8,7 +8,7 @@ def rest_api_server_fnc():
   import utilities
   import defines
   import pandas as pd
-  from flask import Flask
+  from flask import Flask, make_response
 
 
   # Definitions
@@ -58,14 +58,18 @@ def rest_api_server_fnc():
     global df_data
     df_send = df_data[df_data["SENT"] == False]
     df_data["SENT"] = True
-    return df_send.to_string()
+    response = make_response(df_data.to_string(float_format ="{:.8f}".format), 200)
+    response.mimetype = "text/plain"
+    return response
 
 
   @api.route('/get_all_data', methods=['GET'])
   def handle_request2():
     read_data()
     global df_data
-    return df_data.to_string()
+    response = make_response(df_data.to_string(float_format ="{:.8f}".format), 200)
+    response.mimetype = "text/plain"
+    return response
 
 
   api.run(port=defines.API_PORT)
