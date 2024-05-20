@@ -1,6 +1,7 @@
 #!/usr/bin/env python 
 
 
+
 def rpi_gps_thread_fnc():
 
     import socket

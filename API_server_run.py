@@ -36,7 +36,7 @@ if not os.path.exists(TMP_DIR):
     os.makedirs(TMP_DIR)
 files = os.listdir(TMP_DIR)
 if files == []:
-    open(os.path.join(TMP_DIR, str(time.time()) + ".tim"), "w").close()
+    open(os.path.join(TMP_DIR, str(time.time()) + ".tim"), "w").content
     run()
 else:
     file = files[0]

@@ -14,19 +14,24 @@ warnings.filterwarnings("ignore")
 
 
 # Libs
+import io
 import pandas as pd
 import requests
 
 
+# Self modules:
+from defines import *
+
+
 
 # Configuration
-REQUEST_IP = "192.168.10.2"
-REQUEST_PORT = "8000"
-UPDATE_INTERVAL = 2*1000
+REQUEST_IP = "127.0.0.1"
+REQUEST_PORT = str(API_PORT)
+UPDATE_INTERVAL = 2000*1000
 TITLE = "GPS Interface"
 
 
-df = pd.read_csv("data.csv", sep=";")
+# df = pd.read_csv("data.csv", sep=";")
 
 
 
@@ -34,6 +39,9 @@ df = pd.read_csv("data.csv", sep=";")
 def main():
 
     app = JupyterDash(__name__, external_stylesheets=[dbc.themes.MINTY])
+
+    global df
+    df = pd.DataFrame()
 
 
 
@@ -74,7 +82,7 @@ def main():
                                 size=150
                             )
                         ],
-                        width={'size': 5, 'offset': 0, 'order': 2}),
+                        width={'offset': 0, 'order': 1}),
                         dbc.Col([
                             daq.Gauge(
                                 id='acc',
@@ -87,7 +95,7 @@ def main():
                                 size=150
                             ),
                         ],
-                        width={'size': 5, 'offset': 0, 'order': 2}),    
+                        width={ 'offset': 0, 'order': 2}),    
                     ]),
                     dcc.Graph(id='height', style={'width': '60vh', 'height': '40vh'})
                 ],
@@ -112,9 +120,10 @@ def main():
                    Input('interval-component', 'n_intervals'),
                    prevent_initial_call=True)
     def update_text(n):
-        return px.scatter(x=[1,2,3], y=[1,2,3]), px.scatter(x=[1,2,3], y=[1,2,3])
-
-
+        str_new_data = requests.get(url="http://"+REQUEST_IP+":"+REQUEST_PORT+"/get_new_data").content
+        global df
+        df = pd.concat([df, pd.read_csv(io.StringIO(str(str_new_data)), delim_whitespace=True, skipinitialspace=True)])
+        return px.scatter(x=df["TIME"].to_list(), y=df["ALT"].to_list()), px.scatter(x=[1,2,3], y=[1,2,3])
 
     app.run_server(debug=True)
 
