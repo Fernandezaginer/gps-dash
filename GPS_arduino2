@@ -31,8 +31,15 @@
 
 //#define noPush // Uncomment this line to disable pushing the correction data over I2C. Useful for the combo board which uses UART2 instead.
 
-#include "secrets.h" // <- Copy and paste the Current Key and Next Key into secrets.h
+const uint8_t currentKeyLengthBytes =   16; 
+const char currentDynamicKey[] =        "<ADD YOUR L-Band or L-Band + IP DYNAMIC KEY HERE>";
+const uint16_t currentKeyGPSWeek =      2254; // Update this when you add new keys
+const uint32_t currentKeyGPSToW =       0;
 
+const uint8_t nextKeyLengthBytes =      16; 
+const char nextDynamicKey[] =           "<ADD YOUR L-Band or L-Band + IP DYNAMIC KEY HERE>";
+const uint16_t nextKeyGPSWeek =         2258; // Update this when you add new keys
+const uint32_t nextKeyGPSToW =          0;
 #include <SparkFun_u-blox_GNSS_Arduino_Library.h> //http://librarymanager/All#SparkFun_u-blox_GNSS
 SFE_UBLOX_GNSS myGNSS; // ZED-F9x
 SFE_UBLOX_GNSS myLBand; // NEO-D9S
