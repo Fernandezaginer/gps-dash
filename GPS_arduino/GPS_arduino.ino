@@ -10,7 +10,6 @@ void setup()
   
   Serial.begin(115200);
   Serial.println("SparkFun u-blox Example");
-
   Wire.begin();
 
   if (myGNSS.begin() == false) //Connect to the u-blox module using Wire port
