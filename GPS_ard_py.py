@@ -8,8 +8,14 @@ def read_gnss_data():
         line = ser.readline().decode('utf-8').strip()
         if line.startswith('$GNGGA'):
             data = line.split(',')
-            latitude = float(data[2]) / 100
-            longitude = float(data[4]) / 100
+            if 'S' in data[3]:
+                latitude = -float(data[2]) / 100
+            else:
+                latitude = float(data[2]) / 100
+            if 'W' in data[5]:
+                longitude = -float(data[4]) / 100
+            else:
+                longitude = float(data[4]) / 100
             altitude = float(data[9])
             print(f"Lat: {latitude:.6f} (degrees), Long: {longitude:.6f} (degrees), Alt: {altitude:.2f} (m)")
 
