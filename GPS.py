@@ -1,10 +1,10 @@
 import serial
 
 from ublox_gps import UbloxGps
-from smbus2 import SMBus
+#from smbus2 import SMBus
 
-bus = SMBus(0)
-address = [0x42]
+#bus = SMBus(0)
+#address = [0x42]
 
 port = serial.Serial('/dev/serial0', baudrate=38400, timeout=1)
 gps = UbloxGps(port)
