@@ -15,7 +15,6 @@ def read_gnss_data():
 
 if __name__ == "__main__":
     try:
-        ser.open()
         print("Leyendo datos GNSS...")
         read_gnss_data()
     except KeyboardInterrupt:
