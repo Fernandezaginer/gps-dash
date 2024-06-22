@@ -1,0 +1,13 @@
+LICENSE
+README.md
+setup.cfg
+setup.py
+sparkfun_ublox_gps.egg-info/PKG-INFO
+sparkfun_ublox_gps.egg-info/SOURCES.txt
+sparkfun_ublox_gps.egg-info/dependency_links.txt
+sparkfun_ublox_gps.egg-info/top_level.txt
+ublox_gps/__init__.py
+ublox_gps/core.py
+ublox_gps/sfeSpiWrapper.py
+ublox_gps/sparkfun_predefines.py
+ublox_gps/ublox_gps.py

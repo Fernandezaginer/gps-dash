@@ -1,0 +1,6 @@
+__pycache__/
+*~
+[._]*.un~
+*.swp
+*.swo
+.qwiic_gps_ublox.py.swp
