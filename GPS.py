@@ -6,7 +6,7 @@ from ublox_gps import UbloxGps
 #bus = SMBus(0)
 #address = [0x42]
 
-port = serial.Serial('/dev/serial0', baudrate=38400, timeout=1)
+port = serial.Serial('/dev/ttyACM0', baudrate=38400, timeout=1)
 gps = UbloxGps(port)
 
 def run():
