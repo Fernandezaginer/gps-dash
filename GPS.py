@@ -14,7 +14,9 @@ def run():
                 geo = gps.geo_coords()
                 print("Longitude: ", geo.lon) 
                 print("Latitude: ", geo.lat)
-                print("Altitude: ", gps.altitude())
+                info_gps = gps.get_altitude()
+                altitud = info_gps['altitude']
+                print("Altitude: ", altitud)
             except (ValueError, IOError) as err:
                 print(err)
 
