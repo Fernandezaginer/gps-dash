@@ -6,7 +6,7 @@ ser = serial.Serial('/dev/ttyACM0', 115200)  # Ajusta el nombre del puerto segú
 def read_gnss_data():
     while True:
         line = ser.readline().decode('utf-8').strip()
-        #print(line)
+        print(line)
         if line.startswith('$GNGGA'):
             data = line.split(',')
             if 'S' in data[3]:
