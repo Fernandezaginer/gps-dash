@@ -11,14 +11,10 @@ def run():
         print("Listening for UBX Messages")
         while True:
             try:
-                info_gps = gps.get_position()
-                latitud = info_gps['latitude']
-                longitud = info_gps['longitude']
-                altitud_elipsoidal = info_gps['altitude']
-                print("Longitude: ", longitud) 
-                print("Latitude: ", latitud)
-                altitud = altitud_elipsoidal - 28.0
-                print("Altitude: ", altitud)
+                geo = gps.geo_coords()
+                print("Longitude: ", geo.lon) 
+                print("Latitude: ", geo.lat)
+                
             except (ValueError, IOError) as err:
                 print(err)
 
@@ -28,5 +24,3 @@ def run():
 
 if __name__ == '__main__':
     run()
-
-
