@@ -11,9 +11,10 @@ def run():
         print("Listening for UBX Messages")
         while True:
             try:
-                geo = gps.geo_coords()
-                print("Longitude: ", geo.lon) 
-                print("Latitude: ", geo.lat)
+                geo = gps.hp_geo_coords()
+                print("Longitude: ", geo.lonHp) 
+                print("Latitude: ", geo.latHp)
+                print("Altitude: ", geo.heightHp)
                 
             except (ValueError, IOError) as err:
                 print(err)
