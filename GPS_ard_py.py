@@ -1,29 +1,9 @@
-import serial
+from serial import Serial
+from pyubx2 import UBXReader, NMEA_PROTOCOL, UBX_PROTOCOL
 
-# Configura el puerto serie
-ser = serial.Serial('/dev/ttyACM0', 115200)  # Ajusta el nombre del puerto según tu sistema
-
-def read_gnss_data():
-    while True:
-        line = ser.readline().decode('utf-8').strip()
-        print(line)
-        if line.startswith('$GNGGA'):
-            data = line.split(',')
-            if 'S' in data[3]:
-                latitude = -float(data[2]) / 100
-            else:
-                latitude = float(data[2]) / 100
-            if 'W' in data[5]:
-                longitude = -float(data[4]) / 100
-            else:
-                longitude = float(data[4]) / 100
-            altitude = float(data[9])
-            print(f"Lat: {latitude:.6f} (degrees), Long: {longitude:.6f} (degrees), Alt: {altitude:.2f} (m)")
-
-if __name__ == "__main__":
-    try:
-        print("Leyendo datos GNSS...")
-        read_gnss_data()
-    except KeyboardInterrupt:
-        ser.close()
-        print("\n¡Lectura de datos GNSS finalizada!")
+while True:
+    with Serial('/dev/ttyACM0', 38400, timeout=3) as stream:
+      ubr = UBXReader(stream, protfilter=NMEA_PROTOCOL | UBX_PROTOCOL)
+      raw_data, parsed_data = ubr.read()
+      if parsed_data is not None:
+        print(parsed_data)
