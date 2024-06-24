@@ -10,7 +10,7 @@ def parse_nmea_sentence(sentence):
         pass
     return None
 
-def read_gps_data(serial_port):
+def read_gps_data():
     ser = serial.Serial('/dev/ttyACM0', 115200)
     while True:
         sentence = ser.readline().decode("utf-8").strip()
@@ -21,7 +21,7 @@ def read_gps_data(serial_port):
 
 if __name__ == "__main__":
     
-    position = read_gps_data(serial_port)
+    position = read_gps_data()
     if position:
         latitude, longitude, altitude = position
         print(f"Latitud: {latitude:.6f}, Longitud: {longitude:.6f}, Altitud: {altitude:.2f} metros")
