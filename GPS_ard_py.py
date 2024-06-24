@@ -11,7 +11,7 @@ def parse_nmea_sentence(sentence):
     return None
 
 def read_gps_data(serial_port):
-    with serial.Serial(serial_port, baudrate=9600, timeout=1) as ser:
+    ser = serial.Serial('/dev/ttyACM0', 115200)
         while True:
             sentence = ser.readline().decode("utf-8").strip()
             if sentence.startswith("$GPGGA"):
@@ -20,7 +20,7 @@ def read_gps_data(serial_port):
                     return position_data
 
 if __name__ == "__main__":
-    serial_port = "/dev/ttyACM0"  # Adjust this to your actual serial port
+    
     position = read_gps_data(serial_port)
     if position:
         latitude, longitude, altitude = position
