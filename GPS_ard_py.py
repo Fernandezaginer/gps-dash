@@ -12,12 +12,12 @@ def parse_nmea_sentence(sentence):
 
 def read_gps_data(serial_port):
     ser = serial.Serial('/dev/ttyACM0', 115200)
-        while True:
-            sentence = ser.readline().decode("utf-8").strip()
-            if sentence.startswith("$GNGGA"):
-                position_data = parse_nmea_sentence(sentence)
-                if position_data:
-                    return position_data
+    while True:
+        sentence = ser.readline().decode("utf-8").strip()
+        if sentence.startswith("$GNGGA"):
+            position_data = parse_nmea_sentence(sentence)
+            if position_data:
+                return position_data
 
 if __name__ == "__main__":
     
