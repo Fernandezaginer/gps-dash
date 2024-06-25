@@ -6,7 +6,7 @@ def parse_nmea_sentence(sentence):
     try:
         parsed_data = pynmea2.parse(sentence)
         if isinstance(parsed_data, pynmea2.GGA):
-            return parsed_data.latitude, parsed_data.longitude, parsed_data.altitude, parsed_data.pdop
+            return parsed_data.latitude, parsed_data.longitude, parsed_data.altitude, parsed_data.horizontal_dil
     except pynmea2.ParseError:
         pass
     return None
@@ -27,7 +27,7 @@ if __name__ == "__main__":
 
         if position:
             latitude, longitude, altitude, relative_accuracy = position
-            print(f"Latitud: {latitude:.9f}, Longitud: {longitude:.9f}, Altitud: {altitude:.2f} metros, Precision:{relative_accuracy}")
+            print(f"Latitud: {latitude:.9f}, Longitud: {longitude:.9f}, Altitud: {altitude:.2f} metros, Precision Horizontal:{relative_accuracy}")
 
         else:
             print("No se pudo obtener la posición GPS.")
