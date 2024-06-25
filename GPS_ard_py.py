@@ -21,6 +21,7 @@ def read_gps_data():
 
 if __name__ == "__main__":
     while True:
+        serialport = serial.Serial('/dev/ttyACM0', 115200)
         position = read_gps_data()
 
         if position:
@@ -28,7 +29,6 @@ if __name__ == "__main__":
             # print(f"Latitud: {latitude:.9f}, Longitud: {longitude:.9f}, Altitud: {altitude:.2f} metros")
             
             # debug purposes
-            ser = serial.Serial('/dev/tty/ACM0', 115200)
-            print(ser.readline().decode("utf-8").strip())
+            print(serialport.readline().decode("utf-8").strip())
         else:
             print("No se pudo obtener la posición GPS.")
