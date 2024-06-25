@@ -1,14 +1,12 @@
 import serial
 import pynmea2
-import numpy
 
 
 def parse_nmea_sentence(sentence):
     try:
         parsed_data = pynmea2.parse(sentence)
         if isinstance(parsed_data, pynmea2.GGA):
-            error = numpy.sqrt(parsed_data.hdop**2 + parsed_data.vdop**2)
-            return parsed_data.latitude, parsed_data.longitude, parsed_data.altitude, error
+            return parsed_data.latitude, parsed_data.longitude, parsed_data.altitude, parsed_data.pdop
     except pynmea2.ParseError:
         pass
     return None
