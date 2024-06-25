@@ -15,7 +15,6 @@ def read_gps_data():
     while True:  # always running
         sentence = ser.readline().decode('utf-8').strip()
         if sentence.startswith("$GNGGA"):
-            print(sentence)
             position_data = parse_nmea_sentence(sentence)
             if position_data is not None:
                 return position_data
@@ -24,6 +23,10 @@ def read_gps_data():
 if __name__ == "__main__":
     while True:
         position = read_gps_data()
+        #for debug purposes delete after debug
+        ser = serial.Serial('/dev/ttyACM0', 115200)
+        print(ser.readline().decode('utf-8').strip())
+
         if position:
             latitude = position.latitude
             longitude = position.longitude
