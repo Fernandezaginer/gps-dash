@@ -23,15 +23,17 @@ def read_gps_data():
 if __name__ == "__main__":
     while True:
         position = read_gps_data()
-        #for debug purposes delete after debug
-        ser = serial.Serial('/dev/ttyACM0', 115200)
-        print(ser.readline().decode('utf-8').strip())
 
         if position:
             latitude = position.latitude
             longitude = position.longitude
             altitude = position.altitude
-             print(f"Latitud: {latitude:.9f}, Longuitud: {longitude:.9f}, Altitud: {altitude:.9f}")
+
+            # for debug purposes, delete after debug
+            ser = serial.Serial('/dev/ttyACM0', 115200)
+            print(ser.readline().decode('utf-8').strip())
+
+            #print(f"Latitud: {latitude:.9f}, Longuitud: {longitude:.9f}, Altitud: {altitude:.9f}")
         else:
             print("No se pudo encontrar la posicion del GPS.")
 
