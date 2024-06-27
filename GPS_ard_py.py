@@ -27,7 +27,17 @@ if __name__ == "__main__":
 
         if position:
             latitude, longitude, altitude, relative_accuracy = position
-            print(f"Latitud: {latitude:.9f}, Longitud: {longitude:.9f}, Altitud: {altitude:.2f} metros, Precision Horizontal:{relative_accuracy}")
+            print(f"Latitud: {latitude:.9f}, Longitud: {longitude:.9f}, Altitud: {altitude:.2f}, Precision Horizontal:{relative_accuracy}")
 
         else:
             print("No se pudo obtener la posición GPS.")
+
+else:
+    while True:
+        position = read_gps_data()
+        if position is not None:
+            latitude, longitude, altitude, relative_accuracy = position
+            print(f"Latitud: {latitude:.9f}, longitud: {longitude:.9f}, Altitud: {altitude:.2f}, Precision Horizontal:{relative_accuracy}")
+
+        else:
+            print("No se pudo obtener la posicion GPS.")
