@@ -9,6 +9,7 @@ def parse_nmea_sentence(sentence):
         parsed_data = pynmea2.parse(sentence)
         if isinstance(parsed_data, pynmea2.GGA):
             return parsed_data.latitude, parsed_data.longitude, parsed_data.altitude, parsed_data.horizontal_dil
+
     except pynmea2.ParseError:
         pass
     return None
@@ -22,6 +23,8 @@ def read_gps_data():
             position_data = parse_nmea_sentence(sentence)
             if position_data:
                 return position_data
+
+        
 
 def write_gps_data():
     position = read_gps_data()
