@@ -2,6 +2,8 @@ import serial
 import pynmea2
 
 
+
+
 def parse_nmea_sentence(sentence):
     try:
         parsed_data = pynmea2.parse(sentence)
@@ -21,23 +23,21 @@ def read_gps_data():
             if position_data:
                 return position_data
 
+def write_gps_data():
+    position = read_gps_data()
+
+    if position is not None:
+        latitude, longuitude, altitude, horizontal_dil = position
+        print(f"Latitude: {latitude}, Longuitud: {longuitude},Altitud: {altitude}, Dispersion Horizontal:{horizontal_dil}")
+    else:
+        print("No se pudo obtener la posicion GPS")
+
+
 if __name__ == "__main__":
     while True:
-        position = read_gps_data()
+        write_gps_data()
 
-        if position:
-            latitude, longitude, altitude, relative_accuracy = position
-            print(f"Latitud: {latitude:.9f}, Longitud: {longitude:.9f}, Altitud: {altitude:.2f}, Precision Horizontal:{relative_accuracy}")
 
-        else:
-            print("No se pudo obtener la posición GPS.")
-
-else:
+else: #in order for the function to work if the program is imported
     while True:
-        position = read_gps_data()
-        if position is not None:
-            latitude, longitude, altitude, relative_accuracy = position
-            print(f"Latitud: {latitude:.9f}, longitud: {longitude:.9f}, Altitud: {altitude:.2f}, Precision Horizontal:{relative_accuracy}")
-
-        else:
-            print("No se pudo obtener la posicion GPS.")
+        write_gps_data()
