@@ -1,8 +1,10 @@
+import csv
 import serial
 import pynmea2
 
 
-
+#Archivo CSV
+datos = open('data.csv',"w")
 
 def parse_nmea_sentence(sentence):
     try:
@@ -16,7 +18,7 @@ def parse_nmea_sentence(sentence):
 
 
 def read_gps_data():
-    ser = serial.Serial('/dev/ttyACM0', 115200)
+    ser = serial.Serial('/COM3', 115200)
     while True:
         sentence = ser.readline().decode("utf-8").strip()
         if sentence.startswith("$GNGGA"):
@@ -32,11 +34,16 @@ def write_gps_data():
     if position is not None:
         latitude, longuitude, altitude, horizontal_dil = position
         print(f"Latitude: {latitude}, Longuitud: {longuitude},Altitud: {altitude}, Dispersion Horizontal:{horizontal_dil}")
+        datos.write(f"{latitude};{longuitude};{altitude};{horizontal_dil}\n")
     else:
         print("No se pudo obtener la posicion GPS")
 
 
+
+
 if __name__ == "__main__":
+    datos.write("DATOS DEL MODULO GPS\n")
+    datos.write("LAT;LON;ALT;DIL\n")
     while True:
         write_gps_data()
 
@@ -44,3 +51,4 @@ if __name__ == "__main__":
 else: #in order for the function to work if the program is imported
     while True:
         write_gps_data()
+
