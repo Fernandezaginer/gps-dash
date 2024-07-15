@@ -1,8 +1,9 @@
-#Ingenieria inversa de todas las librerias de arduino para U-blox#
+#Ingenieria inversa de todas las librerias de arduino para U-blox
 
-##Headers con las librerias de las que dependen##
+##Headers con las librerias de las que dependen
 
-**- [ ] Secrets.h:** aquí van las llaves en Hexadecimal para thingstream
+**- [ ] Secrets.h:** 
+    aquí van las llaves en Hexadecimal para thingstream
 **- [ ] UbloxNanoGDS.h**
     - [ ] Wire.h
     - [ ] SPI.h
