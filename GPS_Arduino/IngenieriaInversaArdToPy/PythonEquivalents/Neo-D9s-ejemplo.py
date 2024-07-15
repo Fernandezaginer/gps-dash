@@ -1,7 +1,7 @@
 import secrets.py
 import SparkFunUbloxGpsv3.py
 import serial
-import RPi.GPIO as GPIO#para sustituir PINMODE del propio arduino 
+import RPi.GPIO as GPIO #para sustituir PINMODE del propio arduino 
 import time
 
 
@@ -13,12 +13,12 @@ GPIO.setmode(GPIO.BOARD)
 
 
 
-#clases de otra libreria
+#clases de otra libreria #TODO
 SFE_UBLOX_GNSS_SPI myGNSS
 SFE_UBLOX_GNSS_SPI myLBand
 
 
-#clase SPI de otra libreria
+#clase SPI de otra libreria  #TODO
 mySPI = "SPI" # usar otra si se requiere
 mySpeed:int = 2000000
 
