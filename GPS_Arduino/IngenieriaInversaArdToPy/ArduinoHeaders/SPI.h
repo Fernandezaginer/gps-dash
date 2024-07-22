@@ -692,7 +692,7 @@ private:
 #elif defined(__arm__) && defined(TEENSYDUINO) && defined(KINETISL)
 
 #define SPI_HAS_NOTUSINGINTERRUPT 1
-#define SPI_ATOMIC_VERSION 1
+#define SPI_ATOMIC_VERSION 1 /
 
 class SPISettings {
 public:
@@ -1062,15 +1062,15 @@ private:
 	  __attribute__((__always_inline__)) {
 			tcr = LPSPI_TCR_FRAMESZ(7);    // TCR has polarity and bit order too
 
-			// handle LSB setup 
+			// handle LSB setup
 			if (bitOrder == LSBFIRST) tcr |= LPSPI_TCR_LSBF;
 
 			// Handle Data Mode
 			if (dataMode & 0x08) tcr |= LPSPI_TCR_CPOL;
 
-			// Note: On T3.2 when we set CPHA it also updated the timing.  It moved the 
-			// PCS to SCK Delay Prescaler into the After SCK Delay Prescaler	
-			if (dataMode & 0x04) tcr |= LPSPI_TCR_CPHA; 
+			// Note: On T3.2 when we set CPHA it also updated the timing.  It moved the
+			// PCS to SCK Delay Prescaler into the After SCK Delay Prescaler
+			if (dataMode & 0x04) tcr |= LPSPI_TCR_CPHA;
 	}
 
 	inline uint32_t clock() {return _clock;}
@@ -1130,7 +1130,7 @@ public:
 #if defined(__IMXRT1062__)
 	static const SPI_Hardware_t spiclass_lpspi3_hardware;
 	static const SPI_Hardware_t spiclass_lpspi1_hardware;
-#endif	
+#endif
 public:
 	constexpr SPIClass(uintptr_t myport, uintptr_t myhardware)
 		: port_addr(myport), hardware_addr(myhardware) {
@@ -1171,7 +1171,7 @@ public:
 				usingInterrupt(IRQ_GPIO4_16_31);
 				break;
 		}
-#endif		
+#endif
 	}
 	void usingInterrupt(IRQ_NUMBER_t interruptName);
 	void notUsingInterrupt(IRQ_NUMBER_t interruptName);
@@ -1217,15 +1217,15 @@ public:
 			static const uint32_t clk_sel[4] = {664615384,  // PLL3 PFD1
 						     720000000,  // PLL3 PFD0
 						     528000000,  // PLL2
-						     396000000}; // PLL2 PFD2				
+						     396000000}; // PLL2 PFD2
 
 		    // First save away the new settings..
 		    _clock = settings.clock();
 
 			uint32_t cbcmr = CCM_CBCMR;
 			uint32_t clkhz = clk_sel[(cbcmr >> 4) & 0x03] / (((cbcmr >> 26 ) & 0x07 ) + 1);  // LPSPI peripheral clock
-			
-			uint32_t d, div;		
+
+			uint32_t d, div;
 			d = _clock ? clkhz/_clock : clkhz;
 
 			if (d && clkhz/d > _clock) d++;
@@ -1235,10 +1235,10 @@ public:
 			} else {
 				div =0;
 			}
-	
+
 			_ccr = LPSPI_CCR_SCKDIV(div) | LPSPI_CCR_DBT(div/2) | LPSPI_CCR_PCSSCK(div/2);
 
-		} 
+		}
 		//Serial.printf("SPI.beginTransaction CCR:%x TCR:%x\n", _ccr, settings.tcr);
 		port().CR = 0;
 		port().CFGR1 = LPSPI_CFGR1_MASTER | LPSPI_CFGR1_SAMPLE;
@@ -1263,7 +1263,7 @@ public:
 	}
 	uint16_t transfer16(uint16_t data) {
 		uint32_t tcr = port().TCR;
-		port().TCR = (tcr & 0xfffff000) | LPSPI_TCR_FRAMESZ(15);  // turn on 16 bit mode 
+		port().TCR = (tcr & 0xfffff000) | LPSPI_TCR_FRAMESZ(15);  // turn on 16 bit mode
 		port().TDR = data;		// output 16 bit data.
 		while ((port().RSR & LPSPI_RSR_RXEMPTY)) ;	// wait while the RSR fifo is empty...
 		port().TCR = tcr;	// restore back
