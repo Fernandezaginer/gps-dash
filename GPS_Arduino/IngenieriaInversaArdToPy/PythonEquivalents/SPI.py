@@ -1,4 +1,4 @@
-from RPi import RPI.GPIO as GPIO
+import RPi.GPIO as GPIO
 import simpy
 import math
 import time
