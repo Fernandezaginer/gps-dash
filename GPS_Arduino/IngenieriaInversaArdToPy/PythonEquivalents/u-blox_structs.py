@@ -276,7 +276,7 @@ class moduleQueried2:
     
 
 class UBX_NAV_DOP_moduleQueried_t:
-    def __init__(self, module:moduleQueried2)
+    def __init__(self, module:moduleQueried2):
         self.moduleQueried = module
 
 
@@ -292,7 +292,7 @@ class UBX_NAV_DOP_t:
 UBX_NAV_ATT_LEN = 32
 
 class UBX_NAV_ATT_data_t:
-    def __init__(self, iTOW, version, reserved:list, roll, pitch, heading, accRoll, accPitch, accHeading)
+    def __init__(self, iTOW, version, reserved:list, roll, pitch, heading, accRoll, accPitch, accHeading):
         self.iTOW = iTOW
         self.version = version
         self.reserved = reserved
@@ -305,8 +305,144 @@ class UBX_NAV_ATT_data_t:
     
     reserved = [3]
 
+class bits9:
+    def __init__(self, all, iTOW, version, roll, pitch, heading, accRoll, accPitch, accHeading):
+        self.all = all
+        self.iTOW = iTOW
+        self.version = version
+        self.roll = roll
+        self.pitch = pitch
+        self.heading = heading
+        self.accRoll = accRoll
+        self.accPitch = accPitch
+        self.accHeading = accHeading
+    
+    all = 1
+    iTOW = 1
+    version = 1
+    roll = 1
+    pitch = 1
+    heading = 1
+    accRoll = 1
+    accPitch = 1
+    accHeading = 1
 
-        
 
+class moduleQueried3:
+    def __init__(self, all, bits:bits9):
+        self.all = all 
+        self.bits = bits
+
+class UBX_NAV_ATT_moduleQueried_t:
+    def __init__(self, Module:moduleQueried3, all):        
+        self.Module = Module
+        self.all = all 
+
+class UBX_NAV_ATT_t:
+    def __init__(self, autoMaticFlags:ubxAutomaticFlags, data:UBX_NAV_ATT_data_t, moduleQueried:UBX_NAV_ATT_moduleQueried_t) -> None:
+        self.autoMaticFlags = autoMaticFlags
+        self.data = data
+        self.moduleQueried = moduleQueried
+
+UBX_NAV_PVT_LEN = 92
+
+class bits10:
+    def __init__(self, validDate, validTime, fullyResolved, validMag):
+        self.validDate = validDate
+        self.validTime = validTime
+        self.fullyResolved = fullyResolved
+        self.validMag = validMag
+    validDate = 1
+    validTime = 1
+    fullyResolved = 1
+    validMag = 1
+    
+
+class valid:
+    def __init__(self, all, bits:bits10) -> None:
+        self.all = all 
+        self.bits = bits
+
+class bits11:
+    def __init__(self, gnssFixOK, diffSoln, psmState, headVehValid, carrSoln) -> None:
+        self.gnssFixOK = gnssFixOK
+        self.diffSoln = diffSoln
+        self.psmState = psmState
+        self.headVehValid = headVehValid
+        self.carrSoln = carrSoln
+    gnssFixOK = 1
+    diffSoln = 1
+    psmState = 3
+    headVehValid = 1
+    carrSoln = 2
+
+class flags5:
+    def __init__(self, all, bits:bits11) -> None:
+        self.all = all 
+        self.bits = bits
+
+class bits12:
+    def __init__(self, reserved, confirmedAvai, confirmedDate, confirmedTime) -> None:
+        self.reserved = reserved
+        self.confirmedAvai = confirmedAvai
+        self.confirmedDate = confirmedDate
+        self.confirmedTime = confirmedTime
+
+    reserved = 5
+    confirmedAvai = 1
+    confirmedDate = 1
+    confirmedTime = 1 
+
+class flags6:
+    def __init__(self, all, bits:bits12) -> None:
+        self.all = all 
+        self.bits = bits
+
+class bits13:
+    def __init_(self, indalidLlh) -> None:
+        self.invalidLlh = indalidLlh
+    invalidLlh = 3
+
+class flags7:
+    def __init__(self, all, bits:bits13) -> None:
+        self.all = all
+        self.bits = bits
+
+class UBX_NAV_PVT_data_t:
+    def __init__(self, iTOW, year, month, day, hour, min, sec, Valid:valid, tAcc, nano, fixType, flags:flags5, flags2:flags6, numSV, lon, lat, height, hMSL, hAcc, velN, velE, velD, gSpeed, headMot, sAcc, headAcc, pDOP, flags3:flags7, reserved1:list, headVeh, magDec, magAcc) -> None:
+        self.iTOW = iTOW
+        self.year = year
+        self.month = month
+        self.day = day
+        self.hour = hour
+        self.min = min
+        self.sec = sec
+        self.Valid = Valid
+        self.tAcc = tAcc
+        self.nano = nano
+        self.fixType = fixType
+        self.flags = flags
+        self.flags2 = flags2
+        self.numSV = numSV
+        self.lon = lon
+        self.lat = lat
+        self.height = height
+        self.hMSL = hMSL
+        self.hAcc = hAcc
+        self.velN = velN
+        self.velE = velE
+        self.velD = velD
+        self.gSpeed = gSpeed
+        self.headMot = headMot
+        self.sAcc = sAcc
+        self.headAcc = headAcc
+        self.pDOP = pDOP
+        self.flags3 = flags3
+        self.reserved1 = reserved1
+        self.headVeh = headVeh
+        self.magDec = magDec
+        self.magAcc = magAcc
+    
+    reserved1 = [5]
 
 
