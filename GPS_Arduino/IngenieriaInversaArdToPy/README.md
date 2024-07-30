@@ -1,13 +1,25 @@
-#Ingenieria inversa de todas las librerias de arduino para U-blox
+ # Ingenieria inversa de todas las librerias de arduino para U-blox
 
-##Headers con las librerias de las que dependen
+## Headers con las librerias de las que dependen
 
-**- [ ] Secrets.h:** 
+<Secrets.h [x]>
     aquí van las llaves en Hexadecimal para thingstream
-**- [ ] UbloxNanoGDS.h**
-    - [ ] Wire.h
-    - [ ] SPI.h
-    - [ ] Arduino.h
-    - [ ] U-bloxGNSSv3.h
+</Secrets.h [x]>
+<Sparkfun_ublox_GNSS_Arduino.h []>
+    <WProgram.h [x]>
+    <Arduino.h []>
+    </Arduino.h []>
+    <Wire.h [x]>
+        <inttypes.h []>
+        <Stream.h []>
+    </Wire.h [x]>
+    <SPI.h [x]>
+        <DMAChannel.h []>
+        <EvenResponder.h []>
+    </SPI.h [x]>
+    <ublox-config-keys.h []>
+    <ublox-structs.h []>
+</Sparkfun_ublox_GNSS_Arduino.h []>
     
+
 
