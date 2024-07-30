@@ -17,7 +17,7 @@
         <DMAChannel.h []>
         <EvenResponder.h []>
     </SPI.h [x]>
-    <ublox-config-keys.h []>
+    <ublox-config-keys.h [x]>
     <ublox-structs.h []>
 </Sparkfun_ublox_GNSS_Arduino.h []>
     

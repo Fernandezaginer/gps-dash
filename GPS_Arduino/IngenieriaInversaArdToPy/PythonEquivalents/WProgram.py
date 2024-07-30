@@ -40,6 +40,7 @@ def map(l1:int,l2:int,l3:int,l4:int,l5:int):
 
 #Pines GPIO
 GPIO.setup(GPIO.BOARD)
+
 A0 = 0
 A1 = 1
 A2 = 2
