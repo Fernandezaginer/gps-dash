@@ -32,7 +32,7 @@ class flags:
 class ubxAutomaticFlags:
     def __init__(self, Flags:flags):
         self.Flags = Flags
-    
+
 
 
 UBX_NAV_POSECEF_LEN = 20
@@ -70,7 +70,7 @@ class UBX_NAV_POSECEF_moduleQueried_t:
     def __init__(self, all:int, module:moduleQueried):
         self.all = all
         self.module = module
-        
+
 class UBX_NAV_POSECEF_t:
     def __init__(self, automaticFlags: ubxAutomaticFlags, data:UBX_NAV_POSECEF_data_t, callbackData: UBX_NAV_POSECEF_data_t, callBackPointer :UBX_NAV_POSECEF_data_t, callBackPointerPtr:UBX_NAV_POSECEF_data_t ):
         self.automaticFlags = automaticFlags
@@ -101,12 +101,12 @@ class bits3:
         self.hMSL = hMSL
         self.hAcc = hAcc
         self.vAcc = vAcc
-    
+
     all = 1
     lon = 1
     lat = 1
     heigth = 1
-    hMSL = 1 
+    hMSL = 1
     hAcc = 1
     vAcc = 1
 
@@ -124,13 +124,13 @@ class UBX_NAV_POSLLH_t:
         self.callBackPointerPtr = callBackPointerPtr
         self.callbackData = callbackData
 
-        
+
 UBX_NAV_STATUS_LEN = 16
 class bits4:
     def __init__(self, gpsFixOk, diffSoln, wknSet, towSet) -> None:
         self.gpsFixOk = gpsFixOk
         self.wknSet = wknSet
-        self.towSet = towSet        
+        self.towSet = towSet
 
 class flags2:
     def __init__(self, all, bits:bits4) -> None:
@@ -143,7 +143,7 @@ class bits5:
         self.diffSoln = diffSoln
         self.wknSet = wknSet
         self.towSet = towSet
-    
+
     gpsFixOk = 1
     diffSoln = 1
     wknSet = 1
@@ -168,13 +168,13 @@ class bits6:
     mapMatching = 2
 
 class fixStat:
-    def __init__(self,all, bits:bits6): 
-        self.all = all 
+    def __init__(self,all, bits:bits6):
+        self.all = all
         self.bits = bits
 
 class flags4:
     def __init__(self, all, stats:fixStat):
-        self.all = all 
+        self.all = all
         self.stats = stats
 
 class UBX_NAV_STATUS_data_t:
@@ -189,7 +189,7 @@ class UBX_NAV_STATUS_data_t:
 
 class bits7:
     def __init__(self, all, iTOW, gpsFix, gpsFixOk, diffSoln, wknSet, towSet, diffCor, carrSolnValid, mapMatching, psmState, spoofDetState, carrSoln, ttff, msss) -> None:
-        self.all = all 
+        self.all = all
         self.iTOW = iTOW
         self.gpsFix = gpsFix
         self.gpsFixOk = gpsFixOk
@@ -201,9 +201,9 @@ class bits7:
         self.carrSoln = carrSoln
         self.ttff = ttff
         self.msss = msss
-    
+
     all = 1
-    iTOW = 1 
+    iTOW = 1
     gpsFix = 1
     gpsFixOk = 1
     dipassffSoln = 1
@@ -220,7 +220,7 @@ class bits7:
 
 class UBX_NAV_STATUS_moduleQueried_t:
     def __init__(self, all:int , bits:bits7) -> None:
-        self.all = all 
+        self.all = all
         self.bits = bits
 
 
@@ -273,7 +273,7 @@ class moduleQueried2:
     def __init__(self, all, bits:bits8) -> None:
         self.all = all
         self.bits = bits
-    
+
 
 class UBX_NAV_DOP_moduleQueried_t:
     def __init__(self, module:moduleQueried2):
@@ -302,7 +302,7 @@ class UBX_NAV_ATT_data_t:
         self.accRoll = accRoll
         self.accPitch = accPitch
         self.accHeading = accHeading
-    
+
     reserved = [3]
 
 class bits9:
@@ -316,7 +316,7 @@ class bits9:
         self.accRoll = accRoll
         self.accPitch = accPitch
         self.accHeading = accHeading
-    
+
     all = 1
     iTOW = 1
     version = 1
@@ -330,13 +330,13 @@ class bits9:
 
 class moduleQueried3:
     def __init__(self, all, bits:bits9):
-        self.all = all 
+        self.all = all
         self.bits = bits
 
 class UBX_NAV_ATT_moduleQueried_t:
-    def __init__(self, Module:moduleQueried3, all):        
+    def __init__(self, Module:moduleQueried3, all):
         self.Module = Module
-        self.all = all 
+        self.all = all
 
 class UBX_NAV_ATT_t:
     def __init__(self, autoMaticFlags:ubxAutomaticFlags, data:UBX_NAV_ATT_data_t, moduleQueried:UBX_NAV_ATT_moduleQueried_t) -> None:
@@ -356,11 +356,11 @@ class bits10:
     validTime = 1
     fullyResolved = 1
     validMag = 1
-    
+
 
 class valid:
     def __init__(self, all, bits:bits10) -> None:
-        self.all = all 
+        self.all = all
         self.bits = bits
 
 class bits11:
@@ -378,7 +378,7 @@ class bits11:
 
 class flags5:
     def __init__(self, all, bits:bits11) -> None:
-        self.all = all 
+        self.all = all
         self.bits = bits
 
 class bits12:
@@ -391,11 +391,11 @@ class bits12:
     reserved = 5
     confirmedAvai = 1
     confirmedDate = 1
-    confirmedTime = 1 
+    confirmedTime = 1
 
 class flags6:
     def __init__(self, all, bits:bits12) -> None:
-        self.all = all 
+        self.all = all
         self.bits = bits
 
 class bits13:
@@ -442,7 +442,130 @@ class UBX_NAV_PVT_data_t:
         self.headVeh = headVeh
         self.magDec = magDec
         self.magAcc = magAcc
-    
+
     reserved1 = [5]
+
+class bits14:
+    def __init__(self, all, iTOW, year, month, day, hour, min, sec, validDate, validTime, fullyResolved, validMag, tAcc, nano, fixType, gnssFixOk, diffSoln, psmState, headVehValid, carrSoln, confirmedAvai, confirmedDate, confirmedTime, numSV, lon, lat, height, hMSL, hAcc, vAcc, velN, velE) -> None:
+        self.all = all
+        self.iTOW = iTOW
+        self.year = year
+        self.month = month
+        self.day = day
+        self.hour = hour
+        self.min = min
+        self.sec = sec
+        self.validTime = validTime
+        self.validDate = validDate
+        self.fullyResolved = fullyResolved
+        self.validMag = validMag
+        self.tAcc = tAcc
+        self.nano = nano
+        self.fixType = fixType
+        self.gnssFixOk = gnssFixOk
+        self.diffSoln = diffSoln
+        self.psmState = psmState
+        self.headVehValid = headVehValid
+        self.carrSoln = carrSoln
+        self.confirmedAvai = confirmedAvai
+        self.confirmedDate = confirmedDate
+        self.confirmedTime = confirmedTime
+        self.numSV = numSV
+        self.lon = lon
+        self.lat = lat
+        self.height = height
+        self.hMSL = hMSL
+        self.hAcc = hAcc
+        self.vAcc = vAcc
+        self.velN = velN
+        self.velE = velE
+
+    all = 1
+    iTOW = 1
+    year = 1
+    month = 1
+    day = 1
+    hour = 1
+    min = 1
+    sec = 1
+    validDate = 1
+    fullyResolved = 1
+    validMag = 1
+    tAcc = 1
+    nano = 1
+    fixType = 1
+    gnssFixOk = 1
+    diffSoln = 1
+    psmState = 1
+    headVehValid = 1
+    carrSoln = 1
+    confirmedAvai = 1
+    confirmedDate = 1
+    confirmedTime = 1
+    numSV = 1
+    lon = 1
+    lat = 1
+    height = 1
+    hMSL = 1
+    hAcc = 1
+    vAcc = 1
+    velN = 1
+    velE = 1
+
+
+
+class moduleQueried4:
+    def __init__(self, all, bits:bits14) -> None:
+        self.all = all
+        self.bits = bits
+
+class bits15:
+    def __init__(self, velD, gSpeed, headMot, sAcc, headAcc, pDOP, invalidLlh, headVeh, magDec, magAcc) -> None:
+        self.velD = velD
+        self.gSpeed = gSpeed
+        self.headMot = headMot
+        self.sAcc = sAcc
+        self.headAcc = headAcc
+        self.pDOP = pDOP
+        self.invalidLlh = invalidLlh
+        self.headVeh = headVeh
+        self.magDec = magDec
+        self.magAcc = magAcc
+
+    velD,gSpeed,headMot, headAcc, pDOP, invalidLlh,headVeh, magDec, magAcc = 1
+
+
+class moduleQueried5:
+    def __init__(self,all, bits:bits15) -> None:
+        self.all = all
+        self.bits = bits
+
+class UBX_NAV_PVT_moduleQueried_t:
+    def __init__(self,module:moduleQueried4,module2:moduleQueried5) -> None:
+        self.module = module
+        self.module2 = module2
+
+class UBX_NAV_PVT_t:
+    def __init__(self, automaTicFlags:ubxAutomaticFlags, data:UBX_NAV_PVT_data_t, moduleQueried:UBX_NAV_PVT_moduleQueried_t, callBackpointer: UBX_NAV_PVT_t, callbackPointerPtr: UBX_NAV_PVT_data_t, callbackData: UBX_NAV_PVT_data_t) -> None:
+        self.automaticFlags = automaTicFlags
+        self.data = data
+        self.moduleQueried = moduleQueried
+        self.callbackPointer = callBackpointer
+        self.callbackPointerPtr = callbackPointerPtr
+        self.callbackData = callbackData
+
+UBX_NAV_ODO_LEN = 20
+
+class UBX_NAV_ODO_data_t:
+    def __init__(self, version, reserved:list, iTOW, distance, totalDistance, distanceStd) -> None:
+        self.version = version
+        self.reserved = reserved
+        self.iTOW = iTOW
+        self.distance = distance
+        self.totalDistance = totalDistance
+        self.distanceStd = distanceStd
+
+    reserved = [3]
+
 
 
