@@ -567,5 +567,120 @@ class UBX_NAV_ODO_data_t:
 
     reserved = [3]
 
+class bits16:
+    def __init__(self, all, version, iTOW, distance, totalDistance, distanceStd) -> None:
+        self.all = all
+        self.version = version
+        self.iTOW = iTOW
+        self.distance = distance
+        self.totalDistance = totalDistance
+        self.distanceStd = distanceStd
 
+    all = 1
+    version = 1
+    iTOW = 1
+    distance = 1
+    totalDistance = 1
+    distanceStd = 1
+
+class moduleQueried6:
+    def __init__(self, bits:bits16, all) -> None:
+        self.bits = bits
+        self.all  = all
+
+class UBX_NAV_ODO_moduleQueried_t:
+    def __init__(self, all, module:moduleQueried6) -> None:
+        self.all = all
+        self.module = moduleQueried6
+
+
+class UBX_NAV_ODO_t:
+    def __init__(self, AutomaticFlags:ubxAutomaticFlags, data:UBX_NAV_ODO_data_t, moduleQueried: UBX_NAV_ODO_moduleQueried_t, callbackPointer:UBX_NAV_ODO_data_t, callBackPointerPtr: UBX_NAV_ODO_data_t, callBackData: UBX_NAV_ODO_data_t) -> None:
+        self.automaticFlags = AutomaticFlags
+        self.data = data
+        self.moduleQueried = moduleQueried
+        self.callbackPointer = callbackPointer
+        self.callBackPointerPtr = callBackPointerPtr
+        self.callBackdata = callBackData
+
+UBX_NAV_VELECEF_LEN = 20
+
+class UBX_NAV_VELECEF_data_t:
+    def __init__(self, iTow, ecefVX, ecefVY, ecefVZ, sAcc) -> None:
+        self.iTOW = iTow
+        self.ecefVX = ecefVX
+        self.ecefVY = ecefVY
+        self.ecefVZ = ecefVZ
+        self.sAcc = sAcc
+class bits17:
+    def __init__(self, all, iTOW, ecefVX, ecefVY, ecefVZ, sAcc) -> None:
+        self.all = all
+        self.iTOW = iTOW
+        self.ecefVX = ecefVX
+        self.ecefVY = ecefVY
+        self.ecefVZ = ecefVZ
+        self.sAcc = sAcc
+
+    all, iTOW, ecefVX, ecefVY, ecefVZ, sAcc = 1
+class moduleQueried7:
+    def __init_(self, bits:bits17, all) -> None:
+        self.bits = bits
+        self.all = all
+
+class UBX_NAV_VELECEF_moduleQueried_t:
+    def __init__(self, module:moduleQueried) -> None:
+        self.module = module
+
+
+class UBX_NAV_VELCEF_t:
+    def __init__(self, automaticFlags:ubxAutomaticFlags, data:UBX_NAV_VELECEF_data_t,moduleQueried: UBX_NAV_VELECEF_moduleQueried_t, callBackPointer:UBX_NAV_VELECEF_data_t, callBackPointerPtr: UBX_NAV_ODO_data_t, callbackData:UBX_NAV_ODO_data_t) -> None:
+        self.automaticFlags = automaticFlags
+        self.data = data
+        self.moduleQueried = moduleQueried
+        self.callBackPointer = callBackPointer
+        self.callBackPointerPtr = callBackPointer
+
+UBX_NAV_VELNED_LEN = 36
+
+class UBX_NAV_VELNED_data_t:
+    def __init__(self, iTOW, velN, velE, velD, speed, gSpeed, heading, sAcc, cAcc) -> None:
+        self.iTOW = iTOW
+        self.velN = velN
+        self.velE = velE
+        self.velD = velD
+        self.speed = speed
+        self.gSpeed = gSpeed
+        self.heading = heading
+        self.sAcc = sAcc
+
+class bits18:
+    def __init__(self, all, iTOW, velN, velE, velD, speed, gSpeed, heading, sAcc, cAcc) -> None:
+        self.all = all
+        self.iTOW = iTOW
+        self.velN = velN
+        self.velE = velE
+        self.velD = velD
+        self.speed = speed
+        self.gSpeed = gSpeed
+        self.heading = heading
+        self.sAcc = sAcc
+        self.cAcc = cAcc
+
+    all,iTOW,velN,velE, velD, speed, gSpeed, heading, sAcc, cAcc = 1
+
+
+class UBX_NAV_VELNED_moduleQueried:
+    def __init__(self, all, bits:bits18) -> None:
+        self.all = all
+        self.bits = bits
+
+
+class UBX_NAV_VELNED_t:
+    def __init__(self, automaticflags:ubxAutomaticFlags, data:UBX_NAV_VELNED_data_t, moduleQueried: UBX_NAV_VELNED_moduleQueried, callbackPointer: UBX_NAV_VELNED_data_t, callbackPointerPtr:UBX_NAV_VELNED_data_t, callbackData:UBX_NAV_VELNED_data_t) -> None:
+        self.automaticFlags = automaticflags
+        self.data = data
+        self.moduleQueried = moduleQueried
+        self.callBackPointer = callbackPointer
+        self.callBackPointerPtr = callbackPointer
+        self.callBackData = callbackData
 
