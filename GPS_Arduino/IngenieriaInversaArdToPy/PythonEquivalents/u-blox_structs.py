@@ -546,7 +546,7 @@ class UBX_NAV_PVT_moduleQueried_t:
         self.module2 = module2
 
 class UBX_NAV_PVT_t:
-    def __init__(self, automaTicFlags:ubxAutomaticFlags, data:UBX_NAV_PVT_data_t, moduleQueried:UBX_NAV_PVT_moduleQueried_t, callBackpointer: UBX_NAV_PVT_t, callbackPointerPtr: UBX_NAV_PVT_data_t, callbackData: UBX_NAV_PVT_data_t) -> None:
+    def __init__(self, automaTicFlags:ubxAutomaticFlags, data:UBX_NAV_PVT_data_t, moduleQueried:UBX_NAV_PVT_moduleQueried_t, callBackpointer:UBX_NAV_PVT_data_t, callbackPointerPtr: UBX_NAV_PVT_data_t, callbackData: UBX_NAV_PVT_data_t) -> None:
         self.automaticFlags = automaTicFlags
         self.data = data
         self.moduleQueried = moduleQueried
@@ -683,4 +683,122 @@ class UBX_NAV_VELNED_t:
         self.callBackPointer = callbackPointer
         self.callBackPointerPtr = callbackPointer
         self.callBackData = callbackData
+
+ 
+UBX_NAV_HPPOSECEF = 16
+
+UBX_NAV_HPPOSECEF_LEN = 28
+
+class bits19:
+    def __init__(self, invalidEcef) -> None:
+        self.invalifEcef = invalidEcef
+
+class flags8:
+    def __init__(self, all, bits:bits19) -> None:
+        self.all = all
+        self.bits = bits
+
+
+class UBX_NAV_HPPOSECEF_data_t:
+    def __init__(self, version, reserved:list, iTOW, ecefX, ecefY, ecefZ, ecefXHp, ecefYHp, ecefZHp, flags:flags8, pAcc) -> None:
+        self.version = version 
+        self.reserved = reserved
+        self.iTOW = iTOW
+        self.ecefX = ecefX 
+        self.ecefY = ecefY
+        self.ecefZ = ecefZ
+        self.ecefXHp = ecefXHp
+        self.ecefYHp = ecefYHp
+        self.ecefZHp = ecefZHp
+        self.flags = flags
+        self.pAcc = pAcc
+    
+    reserved = []
+
+class bits20:
+    def __init__(self, all, version, iTOW, ecefX, ecefY, ecefZ, ecefXHp, ecefYHp, ecefZHp, invalidEcef, pAcc) -> None:
+        self.all = all 
+        self.version = version 
+        self.iTOW = iTOW
+        self.ecefX = ecefX
+        self.ecefY = ecefY
+        self.ecefZ = ecefZ
+        self.ecefXHp = ecefXHp
+        self.ecefYHp = ecefYHp
+        self.ecefZHp = ecefZHp
+        self.invelidEcef = invalidEcef
+        self.pAcc = pAcc
+    
+    all, version,iTOW,ecefX,ecefY,ecefZ,ecefXHp,ecefYHp,ecefZHp,invelidEcef,pAcc = 1
+
+class moduleQueried8:
+    def __init__(self, all, bits:bits20) -> None:
+        self.all = all 
+        self.bits = bits
+
+class UBX_NAV_HPPOSECEF_moduleQueried_t:
+    def __init__(self, all, module:moduleQueried8) -> None:
+        self.all = all 
+        self.module = module
+
+
+
+class UBX_NAV_HPPOSECEF_t:
+    def __init__(self, automaticFlags:ubxAutomaticFlags, data:UBX_NAV_HPPOSECEF_data_t, mopduleQueried:UBX_NAV_HPPOSECEF_moduleQueried_t, callBackPointer:UBX_NAV_HPPOSECEF_data_t, callBackPointerPtr:UBX_NAV_HPPOSECEF_data_t, callBackData:UBX_NAV_HPPOSECEF_data_t) -> None:
+        self.automaticFlags = automaticFlags
+        self.data = data
+        self.mopduleQueried = mopduleQueried
+        self.callbackPointer = callBackPointer
+        self.callbackPointerPtr = callBackPointerPtr
+        self.callbackData = callBackData
+
+UBX_NAV_HPPOSLLH_LEN = 36
+
+class bits20:
+    def __init__(self, invalifEcef) -> None:
+        self.invalifEcef = invalifEcef
+    invalifEcef = 1
+
+
+class flags9:
+    def __init__(self, all, bits:bits20) -> None:
+        self.all = all 
+        self.bits = bits
+
+class UBX_NAV_HPPOSECEF_data_t:
+    def __init__(self, version, reserved:list, iTOW, ecefX, ecefY, ecefZ, ecefXHp, ecefYHp, ecefZHp, flags:flags9, pAcc) -> None:
+        self.version = version 
+        self.reserved = reserved 
+        self.iTOW = iTOW 
+        self.ecefx = ecefX 
+        self.ecefy = ecefY
+        self.ecefz = ecefZ
+        self.ecefxHp = ecefXHp
+        self.ecefyHp = ecefYHp
+        self.ecefzhp = ecefZHp
+        self.flags = flags
+        self.pAcc = pAcc
+
+class bits21:
+    def __init__(self, all, version, iTOW, ecefX, ecefY, ecefZ, ecefXHp, ecefYHp, ecefZHp, invalidEcef, pAcc) -> None:
+        self. all = all 
+        self.version = version 
+        self.iTOW = iTOW
+        self.ecefX = ecefX
+        self.ecefY = ecefY
+        self.ecefZ = ecefZ
+        self.ecefXHp = ecefXHp
+        self.ecefYHp = ecefYHp
+        self.ecefZHp = ecefZHp
+        self. invalidEcef = invalidEcef
+        self.pAcc = pAcc
+    
+    all,version,iTOW,ecefX,ecefXHp,ecefY,ecefYHp,ecefZ,ecefZHp,invalidEcef,pAcc = 1
+class moduleQueried9:
+    def __init__(self, all, bits:bits21) -> None:
+        self.all = all 
+        self.bits = bits
+class UBX_NAV_HPPOSECEF_moduleQueried_t:
+    def __init__(self, module:moduleQueried9) -> None:
+        self.module = module
 
