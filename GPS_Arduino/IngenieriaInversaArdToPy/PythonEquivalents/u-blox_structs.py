@@ -794,11 +794,58 @@ class bits21:
         self.pAcc = pAcc
     
     all,version,iTOW,ecefX,ecefXHp,ecefY,ecefYHp,ecefZ,ecefZHp,invalidEcef,pAcc = 1
+
 class moduleQueried9:
     def __init__(self, all, bits:bits21) -> None:
         self.all = all 
         self.bits = bits
+
 class UBX_NAV_HPPOSECEF_moduleQueried_t:
     def __init__(self, module:moduleQueried9) -> None:
         self.module = module
+
+class bits22(bits13):
+    def __init__(self) -> None:
+        self.invalidLlh = 1
+
+class flags10:
+    def __init__(self, all , bits:bits22) -> None:
+        self.all = all 
+        self.bits = bits
+
+class UBX_NAV_HPPOSLLH_data_t:
+    def __init__(self, version, reserved1:list, flags:flags10, iTOW, lon, lat, height, hMSL, lonHp, latHp, heightHp, ) -> None: #2 ago
+        self.version = version 
+        self.reserved = reserved1
+        self.flags = flags
+
+    reserved = []
+    for i in range(2):
+        reserved.append(None)
+        
+typedef struct
+{
+  uint8_t version; // Message version (0x00 for this version)
+  uint8_t reserved1[2];
+  union
+  {
+    uint8_t all;
+    struct
+    {
+      uint8_t invalidLlh : 1; // 1 = Invalid lon, lat, height, hMSL, lonHp, latHp, heightHp and hMSLHp
+    } bits;
+  } flags;
+  uint32_t iTOW;   // GPS time of week of the navigation epoch: ms
+  int32_t lon;     // Longitude: deg * 1e-7
+  int32_t lat;     // Latitude: deg * 1e-7
+  int32_t height;  // Height above ellipsoid: mm
+  int32_t hMSL;    // Height above mean sea level: mm
+  int8_t lonHp;    // High precision component of longitude: deg * 1e-9
+  int8_t latHp;    // High precision component of latitude: deg * 1e-9
+  int8_t heightHp; // High precision component of height above ellipsoid: mm * 0.1
+  int8_t hMSLHp;   // High precision component of height above mean sea level: mm * 0.1
+  uint32_t hAcc;   // Horizontal accuracy estimate: mm * 0.1
+  uint32_t vAcc;   // Vertical accuracy estimate: mm * 0.1
+} UBX_NAV_HPPOSLLH_data_t;
+    
 
