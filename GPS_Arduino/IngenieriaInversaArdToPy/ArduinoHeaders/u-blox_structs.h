@@ -768,7 +768,7 @@ typedef struct
   UBX_NAV_HPPOSLLH_data_t data;
   UBX_NAV_HPPOSLLH_moduleQueried_t moduleQueried;
   void (*callbackPointer)(UBX_NAV_HPPOSLLH_data_t);
-  void (*callbackPointerPtr)(UBX_NAV_HPPOSLLH_data_t *);
+  void (*callbackPointerPtr)(UBX_NAV_HPPOSLLH_data_t);
   UBX_NAV_HPPOSLLH_data_t *callbackData;
 } UBX_NAV_HPPOSLLH_t;
 
@@ -912,7 +912,7 @@ typedef struct
     } bits;
   } moduleQueried1;
   union
-  {
+  { 
     uint32_t all;
     struct
     {

@@ -26,6 +26,6 @@ if __name__ == "__main__":
         position = read_gps_data()
         if position:
             # latitude,longuitude,altitude = position
-            print(f"Latitud: {position.latitude:.9f}, Longuitud: {position.longitude:.9f}, Altitud: {position.altitude:.9f}")
+            print(f"Latitud: {position.latitude:.9f}, Longuitud: {position.longitude:.9f}, Altitud: {position.altitude:.9f}, Dispersion: {position.horizontal_dil}")
         else:
             print("No se pudo enecontrar la posicion GPS.")
