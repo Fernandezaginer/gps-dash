@@ -1119,7 +1119,34 @@ class UBX_NAV_TIMELS_data_t:
         
 class bits27:
     def __init__(self, all, iTOW, version, srcOfCurrls, currLs, srcOfLsChange, lsChange, timeToLsEvent, dateOfGpsWn, dateOfLsGpsDn, valirCurrLs, validTimeToLsEvent) -> None:
+        self.all = all
+        self.iTOW = iTOW
+        self.version = version
+        self.srcOfCurrls = srcOfCurrls
+        self.currLs = currLs
+        self.srcOfLsChange = srcOfLsChange
+        self.lsChange = lsChange
+        self.timeToLsEvent = timeToLsEvent
+        self.dateOfGpsWn = dateOfGpsWn
+        self.dateOfLsGpsDn = dateOfLsGpsDn
+        self.valirCurrLs = valirCurrLs
+        self.validTimeToLsEvent = validTimeToLsEvent
         
         
 class UBX_NAV_TIMELS_moduleQueried_t:
     def __init__(self, all, bits:bits27) -> None:
+        self.all = all
+        self.bits = bits
+        
+
+class   UBX_NAV_TIMELS_t:
+    def __init__(self, automaticFlags:ubxAutomaticFlags, data:UBX_NAV_TIMELS_data_t, moduleQueried:UBX_NAV_TIMELS_moduleQueried_t, callbackPointer:UBX_NAV_TIMELS_data_t, callbackPointerPtr:UBX_NAV_TIMELS_data_t, callbackData:UBX_NAV_TIMELS_data_t) -> None:
+        self.automaticFlags = automaticFlags
+        self.data = data
+        self.moduleQueried = moduleQueried
+        self.callbackPointer = callbackPointer
+        self.callbackPointerPtr = callbackPointerPtr
+        self.callbackData = callbackData
+
+UBX_NAV_SAT_MAX_BLOCKS = 225
+UBX_NAV_SAT_MAX_LEN = 8 + (12*UBX_NAV_SAT_MAX_BLOCKS)

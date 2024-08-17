@@ -55,7 +55,7 @@
     The idea behind these conversion macros is that, for each of the
     types defined by <stdint.h>, a macro will be supplied that portably
     allows formatting an object of that type in printf() or scanf()
-    operations.  Example:
+    operations.  Example: 
 
     \code
     #include <inttypes.h>
