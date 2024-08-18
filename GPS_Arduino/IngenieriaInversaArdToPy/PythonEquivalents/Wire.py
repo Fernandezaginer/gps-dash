@@ -1,7 +1,7 @@
 
 
-import inttypes.py    
-import Stream.py   
+import inttypes
+import Stream
 
 
 
