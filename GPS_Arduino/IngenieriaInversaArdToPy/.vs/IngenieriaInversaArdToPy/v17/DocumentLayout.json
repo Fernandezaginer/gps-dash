@@ -1,0 +1,64 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\marco\\OneDrive\\Documentos\\GitHub\\gps-dash\\GPS_Arduino\\IngenieriaInversaArdToPy\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\marco\\OneDrive\\Documentos\\GitHub\\gps-dash\\GPS_Arduino\\IngenieriaInversaArdToPy\\PythonEquivalents\\u-blox_structs.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:PythonEquivalents\\u-blox_structs.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\marco\\OneDrive\\Documentos\\GitHub\\gps-dash\\GPS_Arduino\\IngenieriaInversaArdToPy\\ArduinoHeaders\\u-blox_structs.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:ArduinoHeaders\\u-blox_structs.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "u-blox_structs.h",
+              "DocumentMoniker": "C:\\Users\\marco\\OneDrive\\Documentos\\GitHub\\gps-dash\\GPS_Arduino\\IngenieriaInversaArdToPy\\ArduinoHeaders\\u-blox_structs.h",
+              "RelativeDocumentMoniker": "ArduinoHeaders\\u-blox_structs.h",
+              "ToolTip": "C:\\Users\\marco\\OneDrive\\Documentos\\GitHub\\gps-dash\\GPS_Arduino\\IngenieriaInversaArdToPy\\ArduinoHeaders\\u-blox_structs.h",
+              "RelativeToolTip": "ArduinoHeaders\\u-blox_structs.h",
+              "ViewState": "AQIAAOYEAAAAAAAAAAAtwP4EAAAKAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-08-19T16:16:52.456Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "u-blox_structs.py",
+              "DocumentMoniker": "C:\\Users\\marco\\OneDrive\\Documentos\\GitHub\\gps-dash\\GPS_Arduino\\IngenieriaInversaArdToPy\\PythonEquivalents\\u-blox_structs.py",
+              "RelativeDocumentMoniker": "PythonEquivalents\\u-blox_structs.py",
+              "ToolTip": "C:\\Users\\marco\\OneDrive\\Documentos\\GitHub\\gps-dash\\GPS_Arduino\\IngenieriaInversaArdToPy\\PythonEquivalents\\u-blox_structs.py",
+              "RelativeToolTip": "PythonEquivalents\\u-blox_structs.py",
+              "ViewState": "AQIAABYFAAAAAAAAAAAUwCYFAAAhAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2024-08-19T16:16:57.159Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

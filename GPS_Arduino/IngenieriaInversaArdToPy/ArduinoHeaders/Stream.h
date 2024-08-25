@@ -21,9 +21,10 @@
 
 #ifndef Stream_h
 #define Stream_h
-
+#include "Arduino.h"
 #include <inttypes.h>
 #include "Print.h"
+#include string 
 
 // compatibility macros for testing
 /*
@@ -104,8 +105,39 @@ class Stream : public Print
   // returns the number of characters placed in the buffer (0 means no valid data found)
 
   // Arduino String functions to be added here
-  String readString();
-  String readStringUntil(char terminator);
+
+  
+  String readString(){
+    String incomingByte; 
+    void setup()
+    {
+      Serial.begin(9600);
+    }
+    
+    void loop()
+    {
+      if(Serial.available() > O){
+        incomingByte = Serial.read();
+      }
+    }
+    
+  };
+  String readStringUntil(char terminator){
+    void setup()
+    {
+      String incomingByte;
+      Serial.begin(9600);
+    }
+    
+    void loop()
+    {
+      if(Serial.available() > 0){
+        while(Serial.read() != terminator){
+          incomingByte += Serial.read();
+        }
+      }
+    }
+  };
 
   protected:
   long parseInt(char ignore) { return parseInt(SKIP_ALL, ignore); }

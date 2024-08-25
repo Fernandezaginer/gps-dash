@@ -3,6 +3,9 @@
 if '__u_blox_structs_h__' not in locals():
     __ublox_structs_h_ = None
 
+from inspect import ismodule
+from pydoc import allmethods
+from tkinter import NO
 import SparkFun_u_blox_GNSS_Arduino_Library
 
 if 'DEF_NUM_SENS' not in locals():
@@ -1150,3 +1153,235 @@ class   UBX_NAV_TIMELS_t:
 
 UBX_NAV_SAT_MAX_BLOCKS = 225
 UBX_NAV_SAT_MAX_LEN = 8 + (12*UBX_NAV_SAT_MAX_BLOCKS)
+
+class UBX_NAV_SAT_header_t:
+    def __init__(self, iTOW, version, numSvs, reserved1:list) -> None:
+        self.iTOW = iTOW
+        self.version = version 
+        self.numSvs = numSvs
+        self.reserved = reserved1
+        
+        if reserved1.__len__() != 2:
+            reserved1 = [None,None]
+        else:
+            pass
+
+
+class flags12:
+    def __init__(self, qualityInd, svUsed, health, diffCorr, smoothed, orbitSource, ephAvail, almAvail, anoAvail, aopAvail, reserved1, sbasCorrUsed, rtcmCorrUsed, slasCorrUsed, spartnCorrUsed, prCorrUsed, crCorrUsed, doCorrUsed, reserved2) -> None:
+        self.qualityInd = qualityInd
+        self.svUsed = svUsed
+        self.health = health
+        self.diffCorr = diffCorr
+        self.smoothed = smoothed
+        self.orbitSource = orbitSource
+        self.ephAvail = ephAvail
+        self.almAvail = almAvail
+        self.anoAvail = anoAvail
+        self.aopAvail = aopAvail
+        self.reserved1 = reserved1
+        self.sbasCorrUsed = sbasCorrUsed
+        self.rtcmCorrUsedd = rtcmCorrUsed
+        self.slasCorrUsed = slasCorrUsed
+        self.spartnCorrUsed = spartnCorrUsed
+        self.prCorrUsed = prCorrUsed
+        self.crCorrUsed = crCorrUsed
+        self.reserved2 = reserved2
+        
+class UBX_NAV_SAT_block_t:
+    def __init__(self, gnssId, svId, cno, elev, azim, prRes,flags:flags12) -> None:
+        self.gnssId = gnssId
+        self.svId = svId
+        self.cno = cno 
+        self.elev = elev
+        self.azim = azim
+        self.prRes = prRes
+        self.flags = flags
+
+bar:UBX_NAV_SAT_block_t = None
+
+class UBX_NAV_SAT_data_t:
+    def __init__(self, header:UBX_NAV_SAT_header_t, blocks:list) -> None:
+        self.header = header
+        self.blocks = blocks
+        
+        
+
+        #blocks tiene que contener UBX_NAV_SAT_BLOCKS
+        for i in range(UBX_NAV_SAT_MAX_BLOCKS):
+            blocks.append(bar)
+
+
+class UBX_NAV_SAT_t:
+    def __init__(self, automaticFlags:ubxAutomaticFlags, data:UBX_NAV_SAT_data_t, moduleQueried:bool, callbackPointer:UBX_NAV_SAT_data_t, callbackPointerPtr:UBX_NAV_SAT_data_t, callbackData:UBX_NAV_SAT_data_t) -> None:
+        self.automaticFlags = automaticFlags
+        self.data = data
+        self.moduleQueried = moduleQueried
+        self.callbackPonter = callbackPointer
+        self.callbackPonterPtr = callbackPointerPtr
+        self.callbackData = callbackData
+
+UBX_NAV_SVIN_LEN = 40
+
+class UBX_NAV_SVIN_data_t:
+    def __init__(self, version, reserved1:list, iTOW, dur, meanX, meanY, meanZ, meanXHP, meanYHP, meanZHP, reserved2, meanAcc, obs, valid, active, reserved3:list) -> None:
+        self.version = version 
+        self.reserved1 = reserved1
+        
+        reserved1 = [None, None, None]
+        self.iTOW = iTOW
+        self.dur = dur 
+        self.meanX = meanX
+        self.meanY = meanY
+        self.meanZ = meanZ
+        self.meanXHP = meanXHP
+        self.meanYHP = meanYHP
+        self.meanZHP = meanZHP
+        self.reserved2 = reserved2
+        self.meanAcc = meanAcc
+        self.obs = obs
+        self.valid = valid
+        self.active = active
+        self.reserved3 = reserved3
+        reserved3 = [None,None]
+
+class bits28:
+    def __init__(self, all, version, iTOW, dur, meanX, meanY, meanZ, meanXHP, meanYHP, meanZHP, meanAcc, obs, valid, active):
+        self.all = all
+        self.version = version 
+        self.iTOW = iTOW
+        self.dur = dur
+        self.meanX = meanX
+        self.meanY = meanY
+        self.meanZ = meanZ
+        self.meanXHP = meanXHP
+        self.meanYHP = meanYHP
+        self.meanZHP = meanZHP
+        self.meanAcc = meanAcc
+        self.obs = obs 
+        self.valid = valid
+        self.active = active
+        
+class UBX_NAV_SVIN_moduleQueried_t:
+    def __init__(self, all, bits:bits28):
+        self.all = all 
+        self.bits = bits
+
+class UBX_NAV_SVIN_t:
+    def __init__(self, automaticFlags:ubxAutomaticFlags, data:UBX_NAV_SVIN_data_t, moduleQueried:UBX_NAV_SVIN_moduleQueried_t,callbackPointer:UBX_NAV_SVIN_data_t, callbackPointerPtr:UBX_NAV_SVIN_data_t, callbackData:UBX_NAV_SVIN_data_t) -> None:
+        self.automaticFlags = automaticFlags
+        self.data = data
+        self.moduleQueried = moduleQueried
+        self.callbackPointer = callbackPointer 
+        self.callbackPointerPtr
+        
+
+UBX_NAV_RELPOSNED_LEN = 40
+UBX_NAV_RELPOSNED_LEN_F9 = 64
+
+class bits29:
+    def __init__(self, gnssFixOk, diffSoln, relPosValid, carrSoln, isMoving, refPosMiss, refObsMiss, relPosHeadingValid, relPosNormallized) -> None:
+        self.gnssFixOk = gnssFixOk
+        self.diffSoln = diffSoln
+        self.relPosValid = relPosValid
+        self.carrSoln = carrSoln
+        self.isMoving = isMoving
+        self.refPosMiss = refPosMiss
+        self.refObsMiss = refObsMiss
+        self.relPosHeadingValid = relPosHeadingValid
+        self. relPosNormalized = relPosNormallized
+
+class flags13:
+    def __init__(self, all, bits:bits29) -> None:
+        self.all = all
+        self.bits = bits
+
+class UBX_NAV_RELPOSNED_data_t:
+    def __init__(self, version, reserved0, refStationId, iTOW, relPosN, relPosE, relPosD, relPosLenght, relPosHeading, reserved1:list, relPosHPN, relPosHPE, relPosHPD, relPosHPLenght, accN, accE, accD, accLenght, accHeading, reserved2:list, flags:flags13) -> None:
+       self.version = version 
+       self.reserved0 = reserved0
+       self.refStationId = refStationId
+       self.iTOW = iTOW
+       self.relPosN = relPosN
+       self.relPosE = relPosE
+       self.relPosD = relPosD
+       self.relPosLenght = relPosLenght
+       self.relPosHeading = relPosHeading
+       self.reseved1 = reserved1
+       self.relPosHPE = relPosHPE
+       self.relPosHPN = relPosHPN
+       self.relPosHPD = relPosHPD
+       self.relPosHPLenght = relPosHPLenght
+       self.accN = accN
+       self.accE = accE
+       self.accD = accD
+       self.accLenght = accLenght
+       self.accHeading = accHeading
+       self.reserved2 = reserved2
+       self.flags = flags
+
+class bits30:
+    def __init__(self, all, version, refStationId, iTOW, relPosN, relPosE, relPosLenght, relPosHeading, relPosHPN, relPosHPE, relPosHPD, relPosHPLenght, accN, accE, accD, accLenght, accHeading, gnssFixOk, diffSoln, relPosValid, carrSoln, isMoving, refPosMiss, refObsMiss, refPosHeadingValid, refPosNormalized):
+        self.all = all
+        self.version = version
+        self.refStationId = refStationId
+        self.iTOW = iTOW
+        self.relPosN = relPosN
+        self.relPosE = relPosE
+        self.relPosLenght = relPosLenght
+        self.relPosHeading = relPosHeading
+        self.relPosHPN = relPosHPN
+        self.relPosHPE = relPosHPE
+        self.relPosHPD = relPosHPD
+        self.relPosHPLenght = relPosHPLenght
+        self.accN = accN
+        self.accE = accE
+        self.accD = accD
+        self.accLenght = accLenght
+        self.accHeading = accHeading
+        self.gnssFixOk = gnssFixOk
+        self.diffSoln = diffSoln
+        self.relPosValid = relPosValid
+        self.carrSoln = carrSoln
+        self.isMoving = isMoving
+        self.refPosMiss = refPosMiss
+        self.refObsMiss = refObsMiss
+        self.refPosHeadingValid = refPosHeadingValid
+        self.relPosNormalized = refPosNormalized
+
+class UBX_NAV_RELPOSNED_moduleQueried_t:
+    def __init__(self, all, bits:bits30):
+        self.all = all 
+        self.bits = bits
+
+class UBX_NAV_RELPOSNED_t:
+    def __init__(self, automaticFlags:ubxAutomaticFlags, data:UBX_NAV_RELPOSNED_data_t, moduleQueried:UBX_NAV_RELPOSNED_moduleQueried_t, callbackPointer:UBX_NAV_RELPOSNED_data_t, callbackPointerPtr:UBX_NAV_RELPOSNED_data_t, callbackData:UBX_NAV_RELPOSNED_data_t):
+        self.automaticFlags = automaticFlags
+        self.data = data
+        self.moduleQueried = moduleQueried
+        self.callbackPointer = callbackPointer
+        self.callbackPointerPtr = callbackPointerPtr
+        self.callbackData = callbackData
+
+UBX_NAV_AOPSTATUS_LEN = 16
+
+class bits31:
+    def __init__(self, useAOP):
+        self.useAOP = useAOP
+
+class aopCFG:
+    def __init__(self, all, bits:bits31):
+        self.all = all
+        self.bits = bits
+
+class UBX_NAV_AOPSTATUS_data_t:
+    def __init__(self, iTOW, aopCFG:aopCFG, status, reserved1:list):
+        self.iTOW = iTOW
+        self.aopCFG = aopCFG
+        self.reserved1 = reserved1
+
+        if reserved1.__len__() != 10:
+            for i in range(10):
+                reserved1.append(None)
+        
+        self.status = status

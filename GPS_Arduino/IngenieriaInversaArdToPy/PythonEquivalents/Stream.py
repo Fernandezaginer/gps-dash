@@ -1,5 +1,6 @@
 import inttypes
 import Print
+import serial
 
 from enum import Enum
 
@@ -11,10 +12,18 @@ class LookaheadMode(Enum):
 
 NO_IGNORE_CHAR:chr = '\x01'
 
+class MultiTarget:
+    def __init__(self, str:str, len, index):
+        self.str = str
+        self.len = len
+        self.index = index
+
 class Stream(Print):
-    def __init__(self, _timeout, _startMillis):
+    def __init__(self, _timeout, _startMillis, target:
+        MultiTarget):
         self._timeout = _timeout = 1000
         self._startMillis = _startMillis
+        self.target = target
         
     
     def timeRead():
@@ -108,9 +117,35 @@ class Stream(Print):
     def BytesFound(buffer:str, lenght:int) -> int:
         return Stream.readBytes(buffer, lenght)
     
-    ## readBytesUntil
+    def readBytesUntil(terminator:chr, buffer:str, lenght:int):
+        pass
     
-            
+    def bytesFoundUntil(terminator:chr, buffer:str, lenght:int):
+        return Stream.readBytesUntil(terminator, buffer, lenght)
+    
+    def readString():
+        incomingByte:str = None
+        
+        ser = serial.Serial('/dev/ttyACM0')
+        incomingByte = ser.readline()
+        ser.close()
+    
+    def readStringUntil(terminator:chr):
+        incomingByte:str = None
+        
+        ser = serial.Serial('/dev/ttyACM0')
+        incomingByte = ser.read_until(terminator)
+        ser.close()
+    
+    def intParsed(ignore:chr):
+        return Stream.parseInt(LookaheadMode.SKIP_ALL, ignore)
+    
+    def floatParsed(ignore:chr):
+        return Stream.parseFloat(LookaheadMode.SKIP_ALL, ignore)
+    
+    def findMulti(target:MultiTarget, count:int) -> int:
+        pass
+    
         
             
     
