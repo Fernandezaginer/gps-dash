@@ -3,10 +3,11 @@
 if '__u_blox_structs_h__' not in locals():
     __ublox_structs_h_ = None
 
+from ast import List
 from inspect import ismodule
 from pydoc import allmethods
 from tkinter import NO
-import SparkFun_u_blox_GNSS_Arduino_Library
+# import SparkFun_u_blox_GNSS_Arduino_Library
 
 if 'DEF_NUM_SENS' not in locals():
     DEF_NUM_SENS:int = 7 #max num of ESF sensors
@@ -384,7 +385,7 @@ class UBX_NAV_PVT_data_t:
         self.magDec = magDec
         self.magAcc = magAcc
         
-        if reserved1.__len__() is not 5:
+        if reserved1.__len__() != 5:
             if reserved1.__len__() > 5:
                 while reserved1.__len__() > 5:
                     reserved1.pop()
@@ -485,7 +486,7 @@ class UBX_NAV_ODO_data_t:
         self.totalDistance = totalDistance
         self.distanceStd = distanceStd
 
-    reserved = [3]
+    reserved = [None,None,None]
 
 class bits16:
     def __init__(self, all, version, iTOW, distance, totalDistance, distanceStd) -> None:
@@ -535,7 +536,6 @@ class bits17:
         self.ecefVZ = ecefVZ
         self.sAcc = sAcc
 
-    all, iTOW, ecefVX, ecefVY, ecefVZ, sAcc = 1
 class moduleQueried7:
     def __init_(self, bits:bits17, all) -> None:
         self.bits = bits
@@ -580,8 +580,7 @@ class bits18:
         self.sAcc = sAcc
         self.cAcc = cAcc
 
-    all,iTOW,velN,velE, velD, speed, gSpeed, heading, sAcc, cAcc = 1
-
+    
 
 class UBX_NAV_VELNED_moduleQueried:
     def __init__(self, all, bits:bits18) -> None:
@@ -627,7 +626,7 @@ class UBX_NAV_HPPOSECEF_data_t:
         self.flags = flags
         self.pAcc = pAcc
     
-        if reserved.__len__() is not 3:
+        if reserved.__len__() != 3:
             if reserved.__len__() < 3:
                 while reserved.len() < 3:
                     reserved.append(None)
@@ -717,8 +716,7 @@ class bits21:
         self. invalidEcef = invalidEcef
         self.pAcc = pAcc
     
-    all,version,iTOW,ecefX,ecefXHp,ecefY,ecefYHp,ecefZ,ecefZHp,invalidEcef,pAcc = 1
-
+    
 class moduleQueried9:
     def __init__(self, all, bits:bits21) -> None:
         self.all = all 
@@ -752,7 +750,7 @@ class UBX_NAV_HPPOSLLH_data_t:
         self.heightHp = heightHp
         
         #inicializar el vector reserved
-        if reserved1.__len__() is not 2:
+        if reserved1.__len__() != 2:
             if reserved1.__len__() < 2:
                 while reserved1.__len__() < 2:
                     reserved1.append(None)
@@ -843,7 +841,7 @@ class UBX_NAV_PVAT_data_t:
         self.reserved0 = reserved0
         self.reserved1 = reserved1
         
-        if reserved1.__len__() is not 2:
+        if reserved1.__len__() != 2:
             if reserved1.__len__() < 2:
                 while reserved1.__len__() < 2:
                     reserved1.append(None)
@@ -886,7 +884,7 @@ class UBX_NAV_PVAT_data_t:
         self.errEllipseOrient = errEllipseOrient
         self.reserved2 = reserved2
         
-        if reserved2.__len__() is not 4:
+        if reserved2.__len__() != 4:
             if reserved2.__len__() < 4:
                 while reserved2.__len__() < 4:
                     reserved2.append(None)
@@ -901,7 +899,7 @@ class UBX_NAV_PVAT_data_t:
         
         self.reserved3 = reserved3
         
-        if reserved3.__len__() is not 4:
+        if reserved3.__len__() != 4:
             if reserved3.__len__() < 4:
                 while reserved3.__len__() < 4:
                     reserved3.append(None)
@@ -1088,7 +1086,7 @@ class UBX_NAV_TIMELS_data_t:
         self.iTOW = iTOW
         self.version = version
         self.reserved1 = reserved1
-        if reserved1.__len__() is not 3:
+        if reserved1.__len__() != 3:
             if reserved1.__len__() > 3:
                 while reserved1.__len__() > 3:
                     reserved1.pop()
@@ -1107,7 +1105,7 @@ class UBX_NAV_TIMELS_data_t:
         self.timeToLsEvent = timeToLsEvent
         self.dateOfLsGpsWn = dateOfLsGpsWn
         self.reserved2 = reserved2
-        if reserved2.__len__() is not 3:
+        if reserved2.__len__() != 3:
             if reserved2.__len__() > 3:
                 while reserved2.__len__() > 3:
                     reserved2.pop()
@@ -1385,3 +1383,106 @@ class UBX_NAV_AOPSTATUS_data_t:
                 reserved1.append(None)
         
         self.status = status
+
+class bits32:
+    def __init__(self, all, iTOW, useAOP, status):
+        self.all = all 
+        self.iTOW = iTOW
+        self.useAOP = useAOP
+        self.status = status
+
+class UBX_NAV_AOPSTATUS_moduleQueried_t:
+    def __init__(self, all, bits:bits32):
+        self.all = all 
+        self.bits = bits
+
+class UBX_NAV_AOPSTATUS_t:
+    def __init__(self, automaticFlags:ubxAutomaticFlags, data:UBX_NAV_AOPSTATUS_data_t, moduleQueried:UBX_NAV_AOPSTATUS_moduleQueried_t, callbackPointer:UBX_NAV_AOPSTATUS_data_t, callbackPointerPtr:UBX_NAV_AOPSTATUS_data_t, callbackData:UBX_NAV_AOPSTATUS_data_t):
+        self.automaticFlags = automaticFlags
+        self.data = data
+        self.moduleQueried = moduleQueried
+        self.callbackPointer = callbackPointer
+        self.callbackPointerPtr = callbackPointerPtr
+        self.callbackData = callbackData
+
+UBX_NAV_EOE_LEN = 4
+
+class UBX_NAV_EOE_data_t:
+    def __init__(self, iTOW):
+        self.iTOW = iTOW
+
+class moduleQueried14:
+    def __init__(self, all, iTOW):
+        self.all = all 
+        self.iTOW = iTOW
+
+class UBX_NAV_EOE_moduleQueried_t:
+    def __init__(self, all, moduleQueried:moduleQueried14):
+        self.all = all
+        self.moduleQueried = moduleQueried
+
+class UBX_NAV_EOE_t:
+    def __init__(self, automaticFlags:ubxAutomaticFlags,moduleQueried:UBX_NAV_EOE_moduleQueried_t,data:UBX_NAV_EOE_data_t, callbackPointer:UBX_NAV_EOE_data_t, callbackPointrPtr:UBX_NAV_EOE_data_t, callbackData:UBX_NAV_EOE_data_t):
+        self.automaticFlags = automaticFlags
+        self.data = data
+        self.moduleQueried = moduleQueried       
+        self.callbackPointer = callbackPointer
+        self.callbackPointerPtr = callbackPointrPtr
+        self.callbackData = callbackData
+    
+
+UBX_RXM_SFRBX_MAX_WORDS = 16
+UBX_RXM_SFRBX_MAX_LEN = 8 + (4 * UBX_RXM_SFRBX_MAX_WORDS)
+
+class UBX_RXM_SFRBX_data_t:
+    def __init__(self, gnssId, svId, reserved1, freqId, numWords, chn, version, reserved2, dwrd:list):
+        self.gnssId = gnssId
+        self.svId = svId
+        self.reserved1 = reserved1
+        self.freqId = freqId
+        self.numWords = numWords
+        self.chn = chn 
+        self.version = version
+        self.reserved2 = reserved2
+        self.drwd = dwrd
+        
+        if dwrd.__len__() != UBX_RXM_SFRBX_MAX_WORDS:
+            for i in range(UBX_RXM_SFRBX_MAX_WORDS):
+                dwrd.append(None)
+
+class UBX_RXM_SFRBX_t:
+    def __init__(self, automaticFlags:ubxAutomaticFlags, data:UBX_RXM_SFRBX_data_t, moduleQueried:bool, callbackPointer:UBX_RXM_SFRBX_data_t, callbackPointerPtr:UBX_RXM_SFRBX_data_t, callbackData:UBX_RXM_SFRBX_data_t) -> None:
+        self.automaticFlags = automaticFlags
+        self.data = data
+        self.moduleQueried = moduleQueried
+        self.callbackPointer = callbackPointer
+        self.callbackPointerPtr = callbackPointerPtr
+        self.callbackData = callbackData
+
+UBX_RXM_RAWX_MAX_BLOCKS = 92
+RAWX_MAX_LEN = 16 + (32 * UBX_RXM_RAWX_MAX_BLOCKS)
+
+class bits33:
+    def __init__(self, leapSec, clkReset) -> None:
+        self.leapSec = leapSec
+        self.clkReset = clkReset
+        
+
+class recStat:
+    def __init__(self, all, bits:bits33) -> None:
+        self.all = all 
+        self.bits = bits
+        
+
+class UBX_RXM_RAWX_header_t:
+    def __init__(self, rcvTow:list, week, leapS, numMeas, version, reserved1) -> None:
+        self.rcvTow = rcvTow
+        for i in range(8):
+            rcvTow.append(None)
+        self.week = week
+        self.LeapS = leapS
+        self.numMeas = numMeas
+        self.version = version
+        self.reserved1 = reserved1
+        reserved1 = [None, None]
+
