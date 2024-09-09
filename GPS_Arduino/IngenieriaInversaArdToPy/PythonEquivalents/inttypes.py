@@ -7,37 +7,35 @@ int_farptr_t = NewType('int_farptr_t',int)
 
 uint_farptr_t = NewType('uint_farptr_t', int)
 
-if '__cplusplus' not in locals() and '__STDC_LIMIT_MACROS' in locals():
-    PRId8:chr = 'd'
-    PRIdLEAST8:chr = 'd'
-    PRIdFAST8:chr = 'd'
-    PRId16:chr = "d"
-    PRIdLEAST16:chr = "d"
-    PRIdFAST16:chr = "d"
+PRId8:chr = 'd'
+PRIdLEAST8:chr = 'd'
+PRIdFAST8:chr = 'd'
+PRId16:chr = 'd'
+PRIdLEAST16:chr = 'd'
+PRIdFAST16:chr = "d"
 
-    PRIi16:chr = "i"
-    PRIiLEAST16:chr = "i"
-    PRIiFAST16:chr = "i"
+PRIi16:chr = "i"
+PRIiLEAST16:chr = "i"
+PRIiFAST16:chr = "i"
 
-    PRId32:str = "ld"
-    PRIdLEAST32:str = "ld"
-    PRIdFAST32:str = "ld"
+PRId32:str = "ld"
+PRIdLEAST32:str = "ld"
+PRIdFAST32:str = "ld"
 
-    PRIi32:str = "li"
-    PRIiLEAST32:str = "li"
-    PRIiFAST32:str = "li"
-    
-if '__avr_libc_does_not_implement_long_long_in_printf_or_scanf' not in locals():
-    PRId64: str = "lld"
-    PRIdLEAST64: str = "lld"
-    PRIdFAST64: str = "lld"
+PRIi32:str = "li"
+PRIiLEAST32:str = "li"
+PRIiFAST32:str = "li"
 
-    PRIi64: str = "lli"
-    PRIiLEAST64: str = "lli"
-    PRIiFAST64: str = "lli"
+PRId64: str = "lld"
+PRIdLEAST64: str = "lld"
+PRIdFAST64: str = "lld"
 
-    PRIdMAX: str = "lld"
-    PRIiMAX: str = "lli"
+PRIi64: str = "lli"
+PRIiLEAST64: str = "lli"
+PRIiFAST64: str = "lli"
+
+PRIdMAX: str = "lld"
+PRIiMAX: str = "lli"
 
 PRIdPTR = NewType('PRIdPTR', PRId16)
 PRIiPTR = NewType('PRIiPTR', PRIi16)
@@ -85,27 +83,26 @@ PRIX32: str = "lX"
 PRIXLEAST32: str = "lX"
 PRIXFAST32: str = "lX"
 
-if '__avr_libc_does_not_implement_long_long_in_printf_or_scanf' not in locals():
-    PRIo64: str = "llo"
-    PRIoLEAST64: str = "llo"
-    PRIoFAST64: str = "llo"
+PRIo64: str = "llo"
+PRIoLEAST64: str = "llo"
+PRIoFAST64: str = "llo"
 
-    PRIu64: str = "llu"
-    PRIuLEAST64: str = "llu"
-    PRIuFAST64: str = "llu"
+PRIu64: str = "llu"
+PRIuLEAST64: str = "llu"
+PRIuFAST64: str = "llu"
 
-    PRIx64: str = "llx"
-    PRIxLEAST64: str = "llx"
-    PRIxFAST64: str = "llx"
+PRIx64: str = "llx"
+PRIxLEAST64: str = "llx"
+PRIxFAST64: str = "llx"
 
-    PRIX64: str = "llX"
-    PRIXLEAST64: str = "llX"
-    PRIXFAST64: str = "llX"
+PRIX64: str = "llX"
+PRIXLEAST64: str = "llX"
+PRIXFAST64: str = "llX"
 
-    PRIoMAX: str = "llo"
-    PRIuMAX: str = "llu"
-    PRIxMAX: str = "llx"
-    PRIXMAX: str = "llX"
+PRIoMAX: str = "llo"
+PRIuMAX: str = "llu"
+PRIxMAX: str = "llx"
+PRIXMAX: str = "llX"
 
 
 PRIoPTR = NewType('PRIoPTR', PRIo16)
@@ -113,14 +110,13 @@ PRIuPTR = NewType('PRIuPTR', PRIu16)
 PRIxPTR = NewType('PRIxPTR', PRIx16)
 PRIXPTR = NewType('PRIXPTR', PRIX16)
 
-if '__avr_libc_does_not_implement_hh_in_scanf' not in locals():
-    SCNd8: str = "hhd"
-    SCNdLEAST8: str = "hhd"
-    SCNdFAST8: str = "hhd"
+SCNd8: str = "hhd"
+SCNdLEAST8: str = "hhd"
+SCNdFAST8: str = "hhd"
 
-    SCNi8: str = "hhi"
-    SCNiLEAST8: str = "hhi"
-    SCNiFAST8: str = "hhi"
+SCNi8: str = "hhi"
+SCNiLEAST8: str = "hhi"
+SCNiFAST8: str = "hhi"
     
 SCNd16: str = "d"
 SCNdLEAST16: str = "d"

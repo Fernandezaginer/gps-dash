@@ -43,6 +43,8 @@ class Print
   protected:
     void setWriteError(int err = 1) { write_error = err; }
   public:
+
+ // Constructor
     Print() : write_error(0) {}
   
     int getWriteError() { return write_error; }
@@ -90,4 +92,6 @@ class Print
     virtual void flush() { /* Empty implementation for backward compatibility */ }
 };
 
+
 #endif
+
