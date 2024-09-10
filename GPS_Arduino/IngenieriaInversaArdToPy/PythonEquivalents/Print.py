@@ -53,7 +53,7 @@ class Print:
         return txt.__len__() + 1 #the '/n'
     
     def flush():
-        pass 
+        pass #backend compatibility
 
 
  

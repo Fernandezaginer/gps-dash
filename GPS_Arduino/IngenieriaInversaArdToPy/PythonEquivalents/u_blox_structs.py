@@ -751,14 +751,7 @@ class UBX_NAV_HPPOSLLH_data_t:
         self.heightHp = heightHp
 
         #inicializar el vector reserved
-        if reserved1.__len__() != 2:
-            if reserved1.__len__() < 2:
-                while reserved1.__len__() < 2:
-                    reserved1.append(None)
-
-            if reserved1.__len__() > 2:
-                while reserved1.__len__() > 2:
-                    reserved1.pop()
+        self.reserved = [0] * 2
 
 class bits23:
     def __init__(self, all, version, invalidLh, iTOW, lon, lat, height, hMSL, lonHp, latHp, heightHp, hMSLHp, hAcc, vAcc ) -> None:
@@ -1632,7 +1625,7 @@ class UBX_RXM_PMP_message_t:
         self.callBackPointerPtr = callbackPointerPtr
         self.callbackData = callbackData
 
-UBX_RXM_QZSSL%_NUM_CHANNELS = 2
+UBX_RXM_QZSSL6_NUM_CHANNELS = 2
 UBX_RXM_QZSSL6_DATALEN = 250
 UBX_RXM_QZSSL6_MAX_LEN = UBX_RXM_QZSSL6_DATALEN + 14
 
@@ -1692,3 +1685,267 @@ class UBX_RXM_QZSSL6_message_t:
 # This struct defines the common structure
 
 UBX_CFG_PRT_LEN = 20
+
+class bits36:
+    def __init__(self, inUbx, inNmea, inRtcm, reserved, inRtcm3, inSPARTN):
+        self.inUbx = inUbx
+        self.inNmea = inNmea
+        self.inRtcm = inRtcm
+        self.reserved = reserved
+        self.inRtcm3 = inRtcm3
+        self.inSPARTN = inSPARTN
+        
+
+class inProtoMask:
+    def __init__(self, all, bits:bits36):
+        self.all = all
+        self.bits = bits
+
+class outProtoMask:
+    def __init__(self, outUbx, outNmea, reserved, outRtcm3, outSPARTN):
+        self.outUbx = outUbx
+        self.outNmea = outNmea
+        self.reserved = reserved
+        self.outRtcm3 = outRtcm3
+        self.outSPARTN = outSPARTN
+
+class UBX_CFG_PTR_data_t:
+    def __init__(self, all, inprotomask:inProtoMask, outprotomask:outProtoMask, flags, reserved1):
+        self.all = all 
+        self.inprotomask = inprotomask
+        self.outprotomask = outprotomask
+        self.flags = flags
+        self.reserved1 = reserved1
+
+class UBX_CFG_PRT_t:
+    def __init__(self, data:UBX_CFG_PTR_data_t, dataValid:bool):
+        self.data = data
+        self.dataValid = dataValid
+
+UBX_CFG_RATE_LEN = 6
+
+class UBX_CFG_RATE_data_t:
+    def __init__(self, measRate, navRate, timeRef):
+        self.measRate = measRate
+        self.navRate = navRate
+        self.timeRef = timeRef
+
+class bits37:
+    def __init__(self, all, measRate, navRate, timeRef):
+        self.all = all
+        self.measRate = measRate
+        self.navRate = navRate
+        self.timeRef = timeRef
+
+class moduleQueried15:
+    def __init__(self, all, bits:bits37):
+        self.all = all
+        self.bits = bits
+
+class UBX_CFG_RATE_moduleQueried_t:
+    def __init__(self, all, moduleQueried:moduleQueried15):
+        self.all = all 
+        self.moduleQueried = moduleQueried
+
+class UBX_CFG_RATE_t:
+    def __init__(self, automaticFlags:ubxAutomaticFlags, data:UBX_CFG_RATE_data_t, moduleQueried:UBX_CFG_RATE_moduleQueried_t):
+        self.automaticFlags = automaticFlags
+        self.data = data
+        self.moduleQueried = moduleQueried
+
+UBX_CFG_TP5_LEN = 32
+
+class Flags_tp5_data:
+    def __init__(self):
+        self.all = 0
+        self.active = False  # If set enable time pulse; if pin assigned to another function, other function takes precedence.
+        self.lockGnssFreq = False  # If set, synchronize time pulse to GNSS as soon as GNSS time is valid.
+        self.lockedOtherSet = False  # If set the receiver switches between the timepulse settings given by 'freqPeriodLocked' & 'pulseLenLocked' and those given by 'freqPeriod' & 'pulseLen'.
+        self.isFreq = False  # If set 'freqPeriodLock' and 'freqPeriod' are interpreted as frequency, otherwise interpreted as period.
+        self.isLength = False  # If set 'pulseLenRatioLock' and 'pulseLenRatio' interpreted as pulse length, otherwise interpreted as duty cycle.
+        self.alignToTow = False  # Align pulse to top of second (period time must be integer fraction of 1s).
+        self.polarity = False  # Pulse polarity: 0: falling edge at top of second; 1: rising edge at top of second
+        self.gridUtcGnss = 0  # Timegrid to use: 0: UTC; 1: GPS; 2: GLONASS; 3: BeiDou; 4: Galileo
+        self.syncMode = 0  # Sync Manager lock mode to use
+
+
+class UBX_CFG_TP5_data_t:
+    def __init__(self):
+        self.tpIdx = 0  # Time pulse selection (0 = TIMEPULSE, 1 = TIMEPULSE2)
+        self.version = 0x01  # Message version (0x01 for this version)
+        self.reserved1 = [0, 0]  # Reserved bytes
+        self.antCableDelay = 0  # Antenna cable delay: ns
+        self.rfGroupDelay = 0  # RF group delay: ns
+        self.freqPeriod = 0  # Frequency or period time, depending on setting of bit 'isFreq': Hz_or_us
+        self.freqPeriodLock = 0  # Frequency or period time when locked to GNSS time, only used if 'lockedOtherSet' is set: Hz_or_us
+        self.pulseLenRatio = 0  # Pulse length or duty cycle, depending on 'isLength': us_or_2^-32
+        self.pulseLenRatioLock = 0  # Pulse length or duty cycle when locked to GNSS time, only used if 'lockedOtherSet' is set: us_or_2^-32
+        self.userConfigDelay = 0  # User-configurable time pulse delay: ns
+        self.flags = Flags_tp5_data()  # Flags union
+
+UBX_CFG_ITFM_LEN = 8 # UBX-CFG-ITFM (0x06 0x39): Jamming/interference monitor configuration
+
+class Config:
+        def __init__(self):
+            self.bbThreshold = 0  # Broadband jamming detection threshold (4 bits)
+            self.cwThreshold = 0  # CW jamming detection threshold (5 bits)
+            self.algorithmBits = 0  # Reserved algorithm settings (22 bits)
+            self.enable = 0  # Enable interference detection (1 bit)
+
+        @property
+        def all(self):
+            return (self.bbThreshold << 27) | (self.cwThreshold << 22) | (self.algorithmBits << 0) | (self.enable << 31)
+
+class Config2:
+    def __init__(self):
+        self.generalBits = 0  # General settings (12 bits)
+        self.antSetting = 0  # Antenna setting (2 bits)
+        self.enable2 = 0  # Set to 1 to scan auxiliary bands (1 bit)
+
+    @property
+    def all(self):
+        return (self.generalBits << 20) | (self.antSetting << 18) | (self.enable2 << 31)
+
+class UBX_CFG_ITFM_data_t:
+    def __init__(self):
+        self.config = Config()
+        self.config2 = Config2()
+
+BX_CFG_TMODE3_LEN = 40
+
+class Flags_Cfg_tmode3:
+        def __init__(self):
+            self.mode = 0  # Receiver Mode: 0 Disabled; 1 Survey In; 2 Fixed Mode (true ARP position information required); 3-255 Reserved
+            self.lla = 0  # Position is given in LAT/LON/ALT (default is ECEF)
+
+        @property
+        def all(self):
+            mode_mask = 0xFF << 0
+            lla_mask = 0x1 << 8
+
+            return (self.mode & 0xFF) | (self.lla << 8)
+
+    
+
+class UBX_CFG_TMODE3_data_t:
+    def __init__(self):
+        self.version = 0  # Message version (0x00 for this version)
+        self.reserved1 = 0
+        self.flags = Flags_Cfg_tmode3()
+        self.ecefXOrLat = 0  # WGS84 ECEF X coordinate (or latitude) of the ARP position, depending on flags above: cm or deg*1e-7
+        self.ecefYOrLon = 0  # WGS84 ECEF Y coordinate (or latitude) of the ARP position, depending on flags above: cm or deg*1e-7
+        self.ecefZOrAlt = 0  # WGS84 ECEF Z coordinate (or altitude) of the ARP position, depending on flags above: cm
+        self.ecefXOrLatHP = 0  # High-precision WGS84 ECEF X coordinate (or latitude) of the ARP position, depending on flags above: 0.1 mm or deg*1e-9
+        self.ecefYOrLonHP = 0  # High-precision WGS84 ECEF Y coordinate (or longitude) of the ARP position, depending on flags above: 0.1 mm or deg*1e-9
+        self.ecefZOrAltHP = 0  # High-precision WGS84 ECEF Z coordinate (or altitude) of the ARP position, depending on flags above: 0.1 mm
+        self.reserved2 = 0
+        self.fixedPosAcc = 0  # Fixed position 3D accuracy: 0.1 mm
+        self.svinMinDur = 0  # Survey-in minimum duration: s
+        self.svinAccLimit = 0  # Survey-in position accuracy limit: 0.1 mm
+        self.reserved3 = [0] * 8  # array of reserved bits
+
+
+UBX_MON_HW_LEN = 60
+
+
+
+class Flags_mon_hw:
+    def __init__(self):
+        self.rtcCalib = 0  # RTC is calibrated
+        self.safeBoot = 0  # Safeboot mode (0 = inactive, 1 = active)
+        self.jammingState = 0  # Output from jamming/interference monitor (0 = unknown or feature disabled,
+                                # 1 = ok - no significant jamming,
+                                # 2 = warning - interference visible but fix OK,
+                                # 3 = critical - interference visible and no fix)
+        self.xtalAbsent = 0  # RTC xtal has been determined to be absent
+
+    @property
+    def all(self):
+        rtc_calib_mask = 0x1 << 0
+        safe_boot_mask = 0x1 << 1
+        jamming_state_mask = 0x3 << 2
+        xtal_absent_mask = 0x1 << 4
+
+        return (self.rtcCalib & 0x1) | (self.safeBoot << 1) | (self.jammingState << 2) | (self.xtalAbsent << 4)
+
+class UBX_MON_HW_data_t:
+    def __init__(self):
+        self.pinSel = 0  # Mask of pins set as peripheral/PIO
+        self.pinBank = 0  # Mask of pins set as bank A/B
+        self.pinDir = 0  # Mask of pins set as input/output
+        self.pinVal = 0  # Mask of pins value low/high
+        self.noisePerMS = 0  # Noise level as measured by the GPS core
+        self.agcCnt = 0  # AGC monitor (counts SIGHI xor SIGLO, range 0 to 8191)
+        self.aStatus = 0  # Status of the antenna supervisor state machine (0=INIT, 1=DONTKNOW, 2=OK, 3=SHORT, 4=OPEN)
+        self.aPower = 0  # Current power status of antenna (0=OFF, 1=ON, 2=DONTKNOW)
+        self.flags = Flags_mon_hw()
+        self.reserved1 = 0  # Reserved
+        self.usedMask = 0  # Mask of pins that are used by the virtual pin manager
+        self.VP = [0] * 17  # Array of pin mappings for each of the 17 physical pins
+        self.jamInd = 0  # CW jamming indicator, scaled (0 = no CW jamming, 255 = strong CW jamming)
+        self.reserved2 = [0] * 2  # Reserved
+        self.pinIrq = 0  # Mask of pins value using the PIO Irq
+        self.pullH = 0  # Mask of pins value using the PIO pull high resistor
+        self.pullL = 0  # Mask of pins value using the PIO pull low resistor
+
+UBX_MON_HW2_LEN = 28
+
+class UBX_MON_HW2_data_t:
+    def __init__(self):
+        self.ofsI = 0
+        self.magI = 0
+        self.ofsQ = 0
+        self.magQ = 0
+        self.cfgSource = 0
+        self.reserved0 = [0]*3
+        self.lowlevelCfg = 0
+        self.reserved1 = [0]*8
+        self.postStatus = 0
+        self.reserved2 = [0]*4
+
+UBX_MON_RF_MAX_BLOCKS = 2
+UBX_MON_RF_MAX_LEN = 4 + (24 * UBX_MON_RF_MAX_BLOCKS)
+
+class UBX_MON_RF_header_t:
+    def __init__(self):
+        self.version = 0x00 #Message version 
+        self.nBlocks = 0 #number of rf blocks included
+        self.reserved0 = [0]*0 #Reserved bits
+
+class Flags_MON_RF_block:
+        def __init__(self):
+            self.jammingState = 0  # output from Jamming/Interference Monitor (0 = unknown or feature disabled,
+                                   # 1 = ok - no significant jamming,
+                                   # 2 = warning - interference visible but fix OK,
+                                   # 3 = critical - interference visible and no fix)
+
+        @property
+        def all(self):
+            jamming_state_mask = 0x3 << 0
+
+            return self.jammingState & 0x3
+
+class UBX_MON_RF_block_t:
+    def __init__(self):
+        self.blockId = 0  # RF block ID (0 = L1 band, 1 = L2 or L5 band depending on product configuration)
+        self.flags = Flags_MON_RF_block()
+        self.antStatus = 0  # Status of the antenna supervisor state machine (0x00=INIT, 0x01=DONTKNOW, 0x02=OK, 0x03=SHORT, 0x04=OPEN)
+        self.antPower = 0  # Current power status of antenna (0x00=OFF, 0x01=ON, 0x02=DONTKNOW)
+        self.postStatus = 0  # POST status word
+        self.reserved1 = [0] * 4  # Reserved
+        self.noisePerMS = 0  # Noise level as measured by the GPS core
+        self.agcCnt = 0  # AGC Monitor (counts SIGHI xor SIGLO, range 0 to 8191)
+        self.jamInd = 0  # CW jamming indicator, scaled (0=no CW jamming, 255 = strong CW jamming)
+        self.ofsI = 0  # Imbalance of I-part of complex signal, scaled (-128 = max. negative imbalance, 127 = max. positive imbalance)
+        self.magI = 0  # Magnitude of I-part of complex signal, scaled (0 = no signal, 255 = max.magnitude)
+        self.ofsQ = 0  # Imbalance of Q-part of complex signal, scaled (-128 = max. negative imbalance, 127 = max. positive imbalance)
+        self.magQ = 0  # Magnitude of Q-part of complex signal, scaled (0 = no signal, 255 = max.magnitude)
+        self.reserved2 = [0] * 3  # Reserved
+
+    
+class UBX_MON_RF_data_t:
+    def __init__(self):
+        self.header = UBX_MON_RF_header_t()
+        self.blocks = [UBX_MON_RF_block_t()] * UBX_MON_RF_MAX_BLOCKS
+        
+UBX_TIM_TM2_LEN = 28
