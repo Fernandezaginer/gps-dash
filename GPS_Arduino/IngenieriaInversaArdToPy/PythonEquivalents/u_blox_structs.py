@@ -5,19 +5,19 @@ if '__u_blox_structs_h__' not in locals():
 
 from ast import List
 from inspect import ismodule
+from json import JSONDecoder
 from pydoc import allmethods
 from sys import version
 from tkinter import NO
 # import SparkFun_u_blox_GNSS_Arduino_Library
 
-if 'DEF_NUM_SENS' not in locals():
-    DEF_NUM_SENS:int = 7 #max num of ESF sensors
+DEF_NUM_SENS:int = 7 #max num of ESF sensors
 
-if 'DEF_MAX_NUM_ESF_RAW_REPEATS' not in locals():
-    DEF_MAX_NUM_ESF_RAW_REPEATS:int = 10
 
-if 'DEF_MAX_NUM_ESF_MEAS' not in locals():
-    DEF_MAX_NUM_ESF_MEAS:int = 31
+DEF_MAX_NUM_ESF_RAW_REPEATS:int = 10
+
+
+DEF_MAX_NUM_ESF_MEAS:int = 31
 
 
 class bits1:
@@ -37,7 +37,6 @@ class flags:
 class ubxAutomaticFlags:
     def __init__(self, Flags:flags):
         self.Flags = Flags
-
 
 
 UBX_NAV_POSECEF_LEN = 20
@@ -1694,7 +1693,7 @@ class bits36:
         self.reserved = reserved
         self.inRtcm3 = inRtcm3
         self.inSPARTN = inSPARTN
-        
+
 
 class inProtoMask:
     def __init__(self, all, bits:bits36):
@@ -1711,7 +1710,7 @@ class outProtoMask:
 
 class UBX_CFG_PTR_data_t:
     def __init__(self, all, inprotomask:inProtoMask, outprotomask:outProtoMask, flags, reserved1):
-        self.all = all 
+        self.all = all
         self.inprotomask = inprotomask
         self.outprotomask = outprotomask
         self.flags = flags
@@ -1744,7 +1743,7 @@ class moduleQueried15:
 
 class UBX_CFG_RATE_moduleQueried_t:
     def __init__(self, all, moduleQueried:moduleQueried15):
-        self.all = all 
+        self.all = all
         self.moduleQueried = moduleQueried
 
 class UBX_CFG_RATE_t:
@@ -1825,7 +1824,7 @@ class Flags_Cfg_tmode3:
 
             return (self.mode & 0xFF) | (self.lla << 8)
 
-    
+
 
 class UBX_CFG_TMODE3_data_t:
     def __init__(self):
@@ -1908,7 +1907,7 @@ UBX_MON_RF_MAX_LEN = 4 + (24 * UBX_MON_RF_MAX_BLOCKS)
 
 class UBX_MON_RF_header_t:
     def __init__(self):
-        self.version = 0x00 #Message version 
+        self.version = 0x00 #Message version
         self.nBlocks = 0 #number of rf blocks included
         self.reserved0 = [0]*0 #Reserved bits
 
@@ -1942,10 +1941,656 @@ class UBX_MON_RF_block_t:
         self.magQ = 0  # Magnitude of Q-part of complex signal, scaled (0 = no signal, 255 = max.magnitude)
         self.reserved2 = [0] * 3  # Reserved
 
-    
+
 class UBX_MON_RF_data_t:
     def __init__(self):
         self.header = UBX_MON_RF_header_t()
         self.blocks = [UBX_MON_RF_block_t()] * UBX_MON_RF_MAX_BLOCKS
-        
+
 UBX_TIM_TM2_LEN = 28
+
+class flags_tim_tm2_data:
+    def __init__(self):
+        self.all = 0
+        self.mode = 0
+        self.run = 0
+        self.new_falling_edge = 0
+        self.time_base = 0
+        self.utc = 0
+        self.time = 0
+        self.new_rising_edge = 0
+
+class UBX_TIM_TM2_data:
+    def __init__(self):
+        self.ch = 0  # Channel
+        self.flags = flags_tim_tm2_data()
+        self.count = 0  # Rising edge counter
+        self.wn_r = 0  # Week number of last rising edge
+        self.wn_f = 0  # Week number of last falling edge
+        self.tow_ms_r = 0  # TOW of rising edge: ms
+        self.tow_sub_ms_r = 0  # Millisecond fraction of tow of rising edge: ns
+        self.tow_ms_f = 0  # TOW of falling edge: ms
+        self.tow_sub_ms_f = 0  # Millisecond fraction of tow of falling edge: ns
+        self.acc_est = 0  # Accuracy estimate: ns
+
+class moduleQueried_tim_tm2:
+    def __init__(self):
+        self.all = 0
+        self.mode = 0
+        self.run = 0
+        self.newFallingEdge = 0
+        self.timeBase = 0
+        self.utc = 0
+        self.time = 0
+        self.newRisingAngle = 0
+        self.count = 0
+        self.wnR = 0
+        self.wnF = 0
+        self.towMsR = 0
+        self.towSubMsR = 0
+        self.towMsF = 0
+        self.towSubMsF = 0
+        self.accEst = 0
+
+class UBX_TIM_TM2_moduleQueried:
+    def __init__(self):
+        self.all = 0
+        self.moduleQueried = moduleQueried_tim_tm2()
+
+class UBX_TIM_TM2:
+    def __init__(self):
+        self.automatic_flags = ubxAutomaticFlags()  # assuming UBX_AutomaticFlags is already defined as a Python class
+        self.data = UBX_TIM_TM2_data()
+        self.module_queried = UBX_TIM_TM2_moduleQueried()
+        self.callback_pointer = None  # function pointer, not directly supported in Python
+        self.callback_pointer_ptr = None  # function pointer, not directly supported in Python
+        self.callback_data = None  # pointer to UBX_TIM_TM2_data_t, not directly supported in Python
+
+UBX_ESF_ALG_LEN = 16
+
+class flags_ESF_ALG_data:
+    def __init__(self):
+        self.autoMntAlgOn = 0
+        self.status = 0
+        self.tiltAlgError = 0
+        self.yawAlgError = 0
+        self.angleError = 0
+
+class UBX_ESF_ALG_data_t:
+    def __init__(self):
+        self.iTOW = 0
+        self.version = 0
+        self.flags = flags_ESF_ALG_data()
+        self.reserved1 = 0
+        self.yaw = 0
+        self.pitch = 0
+        self.roll = 0
+
+class UBX_ESF_ALG_moduleQueried_t:
+    def __init__(self):
+        self.all = 0
+        self.iTOW = 0
+        self.version =  0
+        self.autoMntAlgOn: 0
+        self.status = 0
+        self.tiltAlgError = 0
+        self.yawAlgError = 0
+        self.angleError = 0
+        self.yaw = 0
+        self.pitch = 0
+        self.roll = 0
+
+
+class UBX_ESF_ALG_t:
+    def __init__(self):
+        self.automaticFlags = ubxAutomaticFlags() # assuming UBX_AutomaticFlags is already defined as a Python class
+        self.data = UBX_ESF_ALG_data_t()
+        self.moduleQueried = UBX_ESF_ALG_moduleQueried_t()
+        self.callbackPointer = None  # function pointer, not directly supported in Python
+        self.callbackPointerPtr = None  # function pointer, not directly supported in Python
+        self.callbackData = None  # pointer to UBX_ESF_ALG_data_t, not directly supported in Python
+
+class bitfield0:
+    def __init__(self):
+        self.version = 0
+        self.xAngRateValid = 0
+        self.yAngRateValid = 0
+        self.zAngRateValid = 0
+        self.xAccelValid = 0
+        self.yAccelValid = 0
+        self.zAccelValid = 0
+
+UBX_ESF_INS_LEN = 36
+
+UBX_MGA_ACK_DATA0_RINGBUFFER_LEN = 16
+
+
+class UBX_ESF_INS_data_t:
+    def __init__(self):
+        self.bitfield0 = bitfield0()
+        self.reserved1 = [0] * 4
+        self.iTOW = 0
+        self.xAngRate = 0
+        self.yAngRate = 0
+        self.zAngRate = 0
+
+class UBX_ESF_INS_moduleQueried_t:
+    def __init__(self):
+        self.all = 0
+        self.version = 0
+        self.xAngRateValid = 0
+        self.yAngRateValid = 0
+        self.zAngRateValid = 0
+        self.xAccelValid = 0
+        self.yAccelValid = 0
+        self.zAccelValid = 0
+        self.iTOW = 0
+        self.xAngRate = 0
+        self.yAngRate = 0
+        self.zAngRate = 0
+        self.xAccel = 0
+        self.yAccel = 0
+        self.zAccel = 0
+
+class UBX_ESF_INS_t:
+    def __init__(self):
+        self.automaticFlags = ubxAutomaticFlags()  # ubxAutomaticFlags
+        self.data = UBX_ESF_INS_data_t()  # UBX_ESF_INS_data_t
+        self.moduleQueried = UBX_ESF_INS_moduleQueried_t()  # UBX_ESF_INS_moduleQueried_t
+        self.callbackPointer = UBX_ESF_INS_moduleQueried_t()  # function pointer
+        self.callbackPointerPtr = UBX_ESF_INS_moduleQueried_t()  # function pointer
+        self.callbackData = UBX_ESF_INS_moduleQueried_t()  # UBX_ESF_INS_data_t pointer
+
+
+UBX_ESF_MEAS_MAX_LEN = 8 + (4 * DEF_MAX_NUM_ESF_MEAS) + 4
+
+class UBX_ESF_MEAS_sensorData_t:
+    def __init__(self):
+        self.data = UBX_ESF_MEAS_sensorData_union()
+
+class UBX_ESF_MEAS_sensorData_union:
+    def __init__(self):
+        self.all = 0
+        self.bits = UBX_ESF_MEAS_sensorData_bits()
+
+class UBX_ESF_MEAS_sensorData_bits:
+    def __init__(self):
+        self.dataField = 0
+        self.dataType = 0
+
+class UBX_ESF_MEAS_data_t:
+    def __init__(self):
+        self.timeTag = 0
+        self.flags = UBX_ESF_MEAS_flags_union()
+        self.id = 0
+        self.data = [UBX_ESF_MEAS_sensorData_t() for i in range(DEF_MAX_NUM_ESF_MEAS)]
+        self.calibTtag = 0
+
+class UBX_ESF_MEAS_flags_union:
+    def __init__(self):
+        self.all = 0
+        self.bits = UBX_ESF_MEAS_flags_bits()
+
+class UBX_ESF_MEAS_flags_bits:
+    def __init__(self):
+        self.timeMarkSent = 0
+        self.timeMarkEdge = 0
+        self.calibTtagValid = 0
+        self.reserved = 0
+        self.numMeas = 0
+
+class UBX_ESF_MEAS_t:
+    def __init__(self):
+        self.automaticFlags = ubxAutomaticFlags()
+        self.data = UBX_ESF_MEAS_data_t()
+        self.callbackPointer = UBX_ESF_MEAS_data_t()
+        self.callbackPointerPtr = UBX_ESF_MEAS_data_t()
+        self.callbackData = UBX_ESF_MEAS_data_t()
+
+UBX_ESF_RAW_MAX_LEN = 4 + (8 * DEF_NUM_SENS * DEF_MAX_NUM_ESF_RAW_REPEATS)
+
+class UBX_ESF_RAW_sensorData_t:
+    def __init__(self):
+        self.data = UBX_ESF_RAW_sensorData_union()
+        self.sTag = 0
+
+class UBX_ESF_RAW_sensorData_union:
+    def __init__(self):
+        self.all = 0
+        self.bits = UBX_ESF_RAW_sensorData_bits()
+
+class UBX_ESF_RAW_sensorData_bits:
+    def __init__(self):
+        self.dataField = 0
+        self.dataType = 0
+
+class UBX_ESF_RAW_data_t:
+    def __init__(self):
+        self.reserved1 = [0] * 4
+        self.data = [UBX_ESF_RAW_sensorData_t() for _ in range(DEF_NUM_SENS * DEF_MAX_NUM_ESF_RAW_REPEATS)]
+        self.numEsfRawBlocks = 0
+
+class UBX_ESF_RAW_t:
+    def __init__(self):
+        self.automaticFlags = None  # ubxAutomaticFlags
+        self.data = UBX_ESF_RAW_data_t()
+        self.callbackPointer = None  # function pointer
+        self.callbackPointerPtr = None  # function pointer
+        self.callbackData = None  # UBX_ESF_RAW_data_t pointer
+
+UBX_ESF_STATUS_MAX_LEN = 16 + (4 * DEF_NUM_SENS)
+
+class UBX_ESF_STATUS_sensorStatus_t:
+    def __init__(self):
+        self.sensStatus1 = UBX_ESF_STATUS_sensorStatus1_union()
+        self.sensStatus2 = UBX_ESF_STATUS_sensorStatus2_union()
+        self.freq = 0
+        self.faults = UBX_ESF_STATUS_faults_union()
+
+class UBX_ESF_STATUS_sensorStatus1_union:
+    def __init__(self):
+        self.all = 0
+        self.bits = UBX_ESF_STATUS_sensorStatus1_bits()
+
+class UBX_ESF_STATUS_sensorStatus1_bits:
+    def __init__(self):
+        self.type = 0
+        self.used = 0
+        self.ready = 0
+
+class UBX_ESF_STATUS_sensorStatus2_union:
+    def __init__(self):
+        self.all = 0
+        self.bits = UBX_ESF_STATUS_sensorStatus2_bits()
+
+class UBX_ESF_STATUS_sensorStatus2_bits:
+    def __init__(self):
+        self.calibStatus = 0
+        self.timeStatus = 0
+
+class UBX_ESF_STATUS_faults_union:
+    def __init__(self):
+        self.all = 0
+        self.bits = UBX_ESF_STATUS_faults_bits()
+
+class UBX_ESF_STATUS_faults_bits:
+    def __init__(self):
+        self.badMeas = 0
+        self.badTTag = 0
+        self.missingMeas = 0
+        self.noisyMeas = 0
+
+class UBX_ESF_STATUS_data_t:
+    def __init__(self):
+        self.iTOW = 0
+        self.version = 0
+        self.reserved1 = [0] * 7
+        self.fusionMode = 0
+        self.reserved2 = [0] * 2
+        self.numSens = 0
+        self.status = [UBX_ESF_STATUS_sensorStatus_t() for _ in range(DEF_NUM_SENS)]
+
+class UBX_ESF_STATUS_moduleQueried_t:
+    def __init__(self):
+        self.all = 0
+        self.bits = UBX_ESF_STATUS_moduleQueried_bits()
+
+class UBX_ESF_STATUS_moduleQueried_bits:
+    def __init__(self):
+        self.all = 0
+        self.iTOW = 0
+        self.version = 0
+        self.fusionMode = 0
+        self.numSens = 0
+        self.status = [0] * DEF_NUM_SENS
+
+class UBX_ESF_STATUS_t:
+    def __init__(self):
+        self.automaticFlags = ubxAutomaticFlags()  # ubxAutomaticFlags
+        self.data = UBX_ESF_STATUS_data_t()
+        self.moduleQueried = UBX_ESF_STATUS_moduleQueried_t()
+        self.callbackPointer = UBX_ESF_STATUS_data_t()  # function pointer
+        self.callbackPointerPtr = UBX_ESF_STATUS_data_t()  # function pointer
+        self.callbackData = UBX_ESF_STATUS_data_t()  # UBX_ESF_STATUS_data_t pointer
+
+
+UBX_MGA_ACK_DATA0_LEN = 8
+
+UBX_MGA_ACK_DATA0_RINGBUFFER_LEN  = 16 # Provide storage for 16 MGA ACK packets
+
+class UBX_MGA_ACK_DATA0_data_t:
+    def __init__(self):
+        self.type = 0
+        self.version = 0
+        self.infoCode = 0
+        self.msgId = 0
+        self.msgPayloadStart = [0] * 4
+
+UBX_MGA_DBD_LEN = 164
+
+class UBX_MGA_DBD_data_t:
+    def __init__(self):
+        self.dbdEntryHeader1 = 0
+        self.dbdEntryHeader2 = 0
+        self.dbdEntryClass = 0
+        self.dbdEntryID = 0
+        self.dbdEntryLenLSB = 0
+        self.dbdEntryLenMSB = 0
+        self.dbdEntry = [0] * UBX_MGA_DBD_LEN
+        self.dbdEntryChecksumA = 0
+        self.dbdEntryChecksumB = 0
+
+UBX_MGA_DBD_RINGBUFFER_LEN = 190
+UBX_MGA_DBD_RINGBUFFER_LEN = 250
+
+class UBX_MGA_DBD_t:
+    def __init__(self):
+        self.head = 0
+        self.tail = 0
+        self.data = [UBX_MGA_DBD_data_t() for _ in range(UBX_MGA_DBD_RINGBUFFER_LEN)]
+
+
+UBX_HNR_PVT_LEN = 72
+
+class UBX_HNR_PVT_data_t:
+    def __init__(self):
+        self.iTOW = 0
+        self.year = 0
+        self.month = 0
+        self.day = 0
+        self.hour = 0
+        self.min = 0
+        self.sec = 0
+        self.valid = UBX_HNR_PVT_valid_t()
+        self.nano = 0
+        self.gpsFix = 0
+        self.flags = UBX_HNR_PVT_flags_t()
+        self.reserved1 = [0] * 2
+        self.lon = 0
+        self.lat = 0
+        self.height = 0
+        self.hMSL = 0
+        self.gSpeed = 0
+        self.speed = 0
+        self.headMot = 0
+        self.headVeh = 0
+        self.hAcc = 0
+        self.vAcc = 0
+        self.sAcc = 0
+        self.headAcc = 0
+        self.reserved2 = [0] * 4
+
+class UBX_HNR_PVT_valid_t:
+    def __init__(self):
+        self.validDate = False
+        self.validTime = False
+        self.fullyResolved = False
+
+class UBX_HNR_PVT_flags_t:
+    def __init__(self):
+        self.gpsFixOK = False
+        self.diffSoln = False
+        self.WKNSET = False
+        self.TOWSET = False
+        self.headVehValid = False
+
+class UBX_HNR_PVT_moduleQueried_t:
+    def __init__(self):
+        self.moduleQueried = UBX_HNR_PVT_moduleQueried_bits_t()
+
+class UBX_HNR_PVT_moduleQueried_bits_t:
+    def __init__(self):
+        self.all = 0
+
+        self.iTOW = 0
+        self.year = 0
+        self.month = 0
+        self.day = 0
+        self.hour = 0
+        self.min = 0
+        self.sec = 0
+
+        self.validDate = 0
+        self.validTime = 0
+        self.fullyResolved = 0
+
+        self.nano = 0
+        self.gpsFix = 0
+
+        self.gpsFixOK = 0
+        self.diffSoln = 0
+        self.WKNSET = 0
+        self.TOWSET = 0
+        self.headVehValid = 0
+
+        self.lon = 0
+        self.lat = 0
+        self.height = 0
+        self.hMSL = 0
+        self.gSpeed = 0
+        self.speed = 0
+        self.headMot = 0
+        self.headVeh = 0
+        self.hAcc = 0
+        self.vAcc = 0
+        self.sAcc = 0
+        self.headAcc = 0
+
+class UBX_HNR_PVT_t:
+    def __init__(self):
+        self.automaticFlags = ubxAutomaticFlags()
+        self.data = UBX_HNR_PVT_data_t()
+        self.moduleQueried = UBX_HNR_PVT_moduleQueried_t()
+        self.callbackPointer = UBX_HNR_PVT_data_t()
+        self.callbackPointerPtr = UBX_HNR_PVT_data_t()
+        self.callbackData = UBX_HNR_PVT_data_t()
+
+UBX_HNR_ATT_LEN = 32
+
+class UBX_HNR_ATT_data_t:
+    def __init__(self):
+        self.iTOW = 0
+        self.version = 0
+        self.reserved1 = [0]*3
+        self.roll = 0
+        self.pitch = 0
+        self.heading = 0
+        self.accRoll = 0
+        self.accPitch = 0
+        self.accHeading = 0
+
+class UBX_HNR_ATT_moduleQueried_t:
+    def __init__(self):
+        self.moduleQueried = UBX_HNR_ATT_moduleQueried_bits_t()
+
+class UBX_HNR_ATT_moduleQueried_bits_t:
+    def __init__(self):
+        self.all = 0
+
+        self.iTOW = 0
+        self.version = 0
+        self.roll = 0
+        self.pitch = 0
+        self.heading = 0
+        self.accRoll = 0
+        self.accPitch = 0
+        self.accHeading = 0
+
+class UBX_HNR_ATT_t:
+    def __init__(self):
+        self.automaticFlags = 0
+        self.data = UBX_HNR_ATT_data_t()
+        self.moduleQueried = UBX_HNR_ATT_moduleQueried_t()
+        self.callbackPointer = UBX_HNR_ATT_data_t()
+        self.callbackPointerPtr = UBX_HNR_ATT_data_t()
+        self.callbackData = UBX_HNR_ATT_data_t()
+
+UBX_HNR_INS_LEN = 36
+
+class UBX_HNR_INS_data_t:
+    def __init__(self):
+        self.bitfield0 = UBX_HNR_INS_bitfield0_t()
+        self.reserved1 = [0]*4
+        self.iTOW = 0
+        self.xAngRate = 0
+        self.yAngRate = 0
+        self.zAngRate = 0
+        self.xAccel = 0
+        self.yAccel = 0
+        self.zAccel = 0
+
+class UBX_HNR_INS_bitfield0_t:
+    def __init__(self):
+        self.version = 0
+        self.xAngRateValid = False
+        self.yAngRateValid = False
+        self.zAngRateValid = False
+        self.xAccelValid = False
+        self.yAccelValid = False
+        self.zAccelValid = False
+
+class UBX_HNR_INS_moduleQueried_t:
+    def __init__(self):
+        self.moduleQueried = UBX_HNR_INS_moduleQueried_bits_t()
+
+class UBX_HNR_INS_moduleQueried_bits_t:
+    def __init__(self):
+        self.all = 0
+
+        self.version = 0
+        self.xAngRateValid = 0
+        self.yAngRateValid = 0
+        self.zAngRateValid = 0
+        self.xAccelValid = 0
+        self.yAccelValid = 0
+        self.zAccelValid = 0
+
+        self.iTOW = 0
+        self.xAngRate = 0
+        self.yAngRate = 0
+        self.zAngRate = 0
+        self.xAccel = 0
+        self.yAccel = 0
+        self.zAccel = 0
+
+class UBX_HNR_INS_t:
+    def __init__(self):
+        self.automaticFlags = 0
+        self.data = UBX_HNR_INS_data_t()
+        self.moduleQueried = UBX_HNR_INS_moduleQueried_t()
+        self.callbackPointer = UBX_HNR_INS_moduleQueried_t()
+        self.callbackPointerPtr = UBX_HNR_INS_moduleQueried_t()
+        self.callbackData = UBX_HNR_INS_moduleQueried_t()
+
+class nmeaAutomaticFlags:
+    def __init__(self):
+        self.flags = nmeaAutomaticFlags_bits_t()
+
+class nmeaAutomaticFlags_bits_t:
+    def __init__(self):
+        self.completeCopyValid = False
+        self.completeCopyRead = False
+        self.callbackCopyValid = False
+
+NMEA_GGA_MAX_LENGTH = 100
+
+class NMEA_GGA_data:
+    def __init__(self, length: int, nmea: bytes):
+        self.length = length
+        self.nmea = nmea
+
+class NMEA_GPGGA:
+    def __init__(self, automatic_flags: nmeaAutomaticFlags, callback_pointer=None, callback_pointer_ptr=None):
+        self.automatic_flags = automatic_flags
+        self.working_copy = NMEA_GGA_data(0, bytearray(NMEA_GGA_MAX_LENGTH))
+        self.complete_copy = NMEA_GGA_data(0, bytearray(NMEA_GGA_MAX_LENGTH))
+        self.callback_pointer = callback_pointer
+        self.callback_pointer_ptr = callback_pointer_ptr
+        self.callback_copy = None
+
+class NMEA_GNGGA:
+    def __init__(self, automatic_flags:nmeaAutomaticFlags, callback_pointer=None, callback_pointer_ptr=None):
+        self.automatic_flags = automatic_flags
+        self.working_copy = NMEA_GGA_data(0, bytearray(NMEA_GGA_MAX_LENGTH))
+        self.complete_copy = NMEA_GGA_data(0, bytearray(NMEA_GGA_MAX_LENGTH))
+        self.callback_pointer = callback_pointer
+        self.callback_pointer_ptr = callback_pointer_ptr
+        self.callback_copy = None
+
+
+NMEA_VTG_MAX_LENGTH = 100
+
+class NMEA_GGA_data:
+    def __init__(self, length: int, nmea: bytes):
+        self.length = length
+        self.nmea = nmea
+
+class NMEA_GPGGA:
+    def __init__(self, automatic_flags: nmeaAutomaticFlags, callback_pointer, callback_pointer_ptr):
+        self.automatic_flags = automatic_flags
+        self.working_copy = NMEA_GGA_data(0, bytearray(NMEA_GGA_MAX_LENGTH))
+        self.complete_copy = NMEA_GGA_data(0, bytearray(NMEA_GGA_MAX_LENGTH))
+        self.callback_pointer = callback_pointer
+        self.callback_pointer_ptr = callback_pointer_ptr
+        self.callback_copy = None
+
+class NMEA_GNGGA:
+    def __init__(self, automatic_flags: nmeaAutomaticFlags, callback_pointer, callback_pointer_ptr):
+        self.automatic_flags = automatic_flags
+        self.working_copy = NMEA_GGA_data(0, bytearray(NMEA_GGA_MAX_LENGTH))
+        self.complete_copy = NMEA_GGA_data(0, bytearray(NMEA_GGA_MAX_LENGTH))
+        self.callback_pointer = callback_pointer
+        self.callback_pointer_ptr = callback_pointer_ptr
+        self.callback_copy = None
+
+
+NMEA_RMC_MAX_LENGTH = 100
+
+class NMEA_RMC_data:
+    def __init__(self):
+        self.length = 0
+        self.nmea = [0 for i in range(NMEA_RMC_MAX_LENGTH)]
+
+
+class NMEA_GPRMC:
+    def __init__(self, automatic_flags: nmeaAutomaticFlags):
+        self.automatic_flags = automatic_flags
+        self.working_copy = NMEA_RMC_data(0, bytearray(NMEA_RMC_MAX_LENGTH))
+        self.complete_copy = NMEA_RMC_data(0, bytearray(NMEA_RMC_MAX_LENGTH))
+        self.callback_pointer = NMEA_RMC_data()
+        self.callback_pointer_ptr = NMEA_RMC_data()
+        self.callback_copy = NMEA_RMC_data
+
+class NMEA_GNRMC:
+    def __init__(self, automatic_flags: nmeaAutomaticFlags):
+        self.working_copy = NMEA_RMC_data(0, bytearray(NMEA_RMC_MAX_LENGTH))
+        self.complete_copy = NMEA_RMC_data(0, bytearray(NMEA_RMC_MAX_LENGTH))
+        self.callback_pointer = NMEA_RMC_data()
+        self.callback_pointer_ptr = NMEA_RMC_data
+        self.callback_copy = None
+
+
+NMEA_ZDA_MAX_LENGTH = 50
+
+class NMEA_ZDA_data:
+    def __init__(self, length: int, nmea: bytes):
+        self.length = length
+        self.nmea = nmea
+
+class NMEA_GPZDA:
+    def __init__(self):
+        self.automatic_flags = ubxAutomaticFlags()
+        self.working_copy = NMEA_ZDA_data(0, bytearray(NMEA_ZDA_MAX_LENGTH))
+        self.complete_copy = NMEA_ZDA_data(0, bytearray(NMEA_ZDA_MAX_LENGTH))
+        self.callback_pointer = NMEA_ZDA_data()
+        self.callback_pointer_ptr = NMEA_ZDA_data()
+        self.callback_copy = None
+
+class NMEA_GNZDA:
+    def __init__(self, automatic_flags: 'nmeaAutomaticFlags', callback_pointer=None, callback_pointer_ptr=None):
+        self.automatic_flags = automatic_flags
+        self.working_copy = NMEA_ZDA_data(0, bytearray(NMEA_ZDA_MAX_LENGTH))
+        self.complete_copy = NMEA_ZDA_data(0, bytearray(NMEA_ZDA_MAX_LENGTH))
+        self.callback_pointer = callback_pointer
+        self.callback_pointer_ptr = callback_pointer_ptr
+        self.callback_copy = None
