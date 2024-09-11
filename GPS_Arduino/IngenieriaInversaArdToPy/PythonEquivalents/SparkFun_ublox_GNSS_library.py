@@ -1,10 +1,9 @@
 
 import Wire as i2c
-import SPI
 import u_blox_structs
 import u_blox_config_keys
 from enum import Enum
-import struct 
+import struct
 
 debugPin = -1
 
@@ -13,7 +12,7 @@ class sfe_ublox_status_e(Enum):
     SFE_UBLOX_STATUS_FAIL = 2
     SFE_UBLOX_STATUS_CRC_FAIL = 3
     SFE_UBLOX_STATUS_TIMEOUT = 4
-    SFE_UBLOX_STATUS_COMMAND_NACK, = 5
+    SFE_UBLOX_STATUS_COMMAND_NACK = 5
     SFE_UBLOX_STATUS_OUT_OF_RANGE = 6
     SFE_UBLOX_STATUS_INVALID_ARG = 7
     SFE_UBLOX_STATUS_INVALID_OPERATION = 8
@@ -455,7 +454,7 @@ class sfe_ublox_mga_ack_infocode_e(Enum):
     SFE_UBLOX_MGA_ACK_INFOCODE_ACCEPTED = 1
     SFE_UBLOX_MGA_ACK_INFOCODE_NO_TIME = 2
     SFE_UBLOX_MGA_ACK_INFOCODE_NOT_SUPPORTED = 3
-    SFE_UBLOX_MGA_ACK_INFOCODE_SIZE_MISMATCH = 4 
+    SFE_UBLOX_MGA_ACK_INFOCODE_SIZE_MISMATCH = 4
     SFE_UBLOX_MGA_ACK_INFOCODE_NOT_STORED = 5
     SFE_UBLOX_MGA_ACK_INFOCODE_NOT_READY = 6
     SFE_UBLOX_MGA_ACK_INFOCODE_TYPE_UNKNOWN = 7
@@ -499,7 +498,7 @@ class UbxPacket:
         self.checksum_b = checksum_b
         self.valid = sfe_ublox_packet_validity_e()
         self.class_and_id_match = sfe_ublox_packet_validity_e()
-        
+
 
 
 class GeofenceState:
@@ -552,21 +551,32 @@ class SFE_UBLOX_GNSS:
         self.defaultMGAINITIMEtAccNs = 0
         self.defaultMGAINITIMEsource = 0
         self.defaultNavDBDMaxWait = 3100
-        
+
 
     sfe_ublox_sentence_types_e = Enum('currentSentence', ['SFE_UBLOX_SENTENCE_TYPE_NONE','SFE_UBLOX_SENTENCE_TYPE_NMEA','SFE_UBLOX_SENTENCE_TYPE_UBX','SFE_UBLOX_SENTENCE_TYPE_RTCM'])
-    
+
+
+    # bool begin(TwoWire &wirePort = Wire, uint8_t deviceAddress = 0x42, uint16_t maxWait = defaultMaxWait, bool assumeSuccess = false); // Returns true if module is detected
     def begin():
-        pass
-    
+        wire = i2c.TwoWire()
+        try:
+            wire.begin()
+            return True
+        except Exception as ex:
+            return False
+
+
+
+
+
     def setI2COutput(self,bus, address, output_protocol):
-        
+
         # Configure the I2C port to output the specified protocol(s)
 
         #:param bus: The I2C bus number (e.g. 1 for Raspberry Pi)
         #:param address: The I2C address of the device (e.g. 0x42)
         #:param output_protocol: A string specifying the protocol(s) to output, separated by commas (e.g. "UBX,NMEA" or "RTCM3,SPARTN")
-        
+
         # Define the protocol codes
         PROTOCOL_CODES = {
             "UBX": 0x01,
@@ -592,11 +602,11 @@ class SFE_UBLOX_GNSS:
 
     def setNavigationFrecuency(self, freq):
         self.navigationFrecuency = freq
-    
-    
+
+
     def getPVT(self, bus, adress):
         self.maxwait = self.defaultMaxWait
-        self.pvtBus = bus 
+        self.pvtBus = bus
         self.pvtAdress = adress
         # Get the current PVT (position, velocity, time) data from the device
         #Get the current PVT (position, velocity, time) data from the device
@@ -634,18 +644,17 @@ class SFE_UBLOX_GNSS:
         self.pvt_data_dictionary = pvt_data_dict
         return pvt_data_dict
 
-    
+
 
 
     def getLatitude(self):
         self.maxwait = self.defaultMaxWait
         return self.pvt_data_dictionary.get('latitude')
-        
+
     def getLonguitude(self):
         self.maxwait = self.defaultMaxWait
         return self.pvt_data_dictionary.get('longitude')
     def getAltitude(self):
         self.maxwait = self.defaultMaxWait
         return self.pvt_data_dictionary.get('altitude')
-        
-        
+
