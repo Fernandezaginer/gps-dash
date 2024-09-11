@@ -1,10 +1,10 @@
 
-import WProgram
-import Wire
+import Wire as i2c
 import SPI
 import u_blox_structs
 import u_blox_config_keys
 from enum import Enum
+import struct 
 
 debugPin = -1
 
@@ -486,3 +486,166 @@ sfe_ublox_rxm_mode_e = Enum('sfe_ublox_rxm_mode_e',['SFE_UBLOX_CFG_RXM_CONTINUOU
 MAX_PAYLOAD_SIZE = 276
 SFE_UBLOX_SPI_BUFFER_SIZE = 128
 SFE_UBLOX_MAX_NMEA_BYTE_COUNT = 88
+
+class UbxPacket:
+    def __init__(self,cls,id,len,counter,starting_spot,payload,checksum_a, checksum_b):
+        self.cls = cls
+        self.id = id
+        self.len = len
+        self.counter = counter
+        self.starting_spot = starting_spot
+        self.payload = payload
+        self.checksum_a = checksum_a
+        self.checksum_b = checksum_b
+        self.valid = sfe_ublox_packet_validity_e()
+        self.class_and_id_match = sfe_ublox_packet_validity_e()
+        
+
+
+class GeofenceState:
+    def __init__(self,status,num_fences,comb_state):
+        self.status = status
+        self.num_fences = num_fences
+        self.comb_state = comb_state
+        self.states = [0, 0, 0, 0]
+
+class GeofenceParams:
+    def __init__(self,num_fences):
+        self.num_fences = num_fences
+        self.lats = [0, 0, 0, 0]
+        self.longs = [0, 0, 0, 0]
+        self.rads = [0, 0, 0, 0]
+
+class ModuleSWVersion:
+    def __init__(self,version_low, version_high, moduleQueried:bool):
+        self.version_low = version_low
+        self.version_high = version_high
+        self.module_queried = moduleQueried
+
+
+SFE_UBLOX_DAYS_FROM_1970_TO_2020 = 18262  # Jan 1st 2020 Epoch = 1577836800 seconds
+
+SFE_UBLOX_DAYS_SINCE_2020 = [
+    0, 366, 731, 1096, 1461, 1827, 2192, 2557, 2922, 3288,
+    3653, 4018, 4383, 4749, 5114, 5479, 5844, 6210, 6575, 6940,
+    7305, 7671, 8036, 8401, 8766, 9132, 9497, 9862, 10227, 10593,
+    10958, 11323, 11688, 12054, 12419, 12784, 13149, 13515, 13880, 14245,
+    14610, 14976, 15341, 15706, 16071, 16437, 16802, 17167, 17532, 17898,
+    18263, 18628, 18993, 19359, 19724, 20089, 20454, 20820, 21185, 21550,
+    21915, 22281, 22646, 23011, 23376, 23742, 24107, 24472, 24837, 25203,
+    25568, 25933, 26298, 26664, 27029, 27394, 27759, 28125, 28490, 28855
+]
+
+SFE_UBLOX_DAYS_SINCE_MONTH = [
+    [0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335],  # Leap Year (Year % 4 == 0)
+    [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334]  # Normal Year
+]
+
+
+
+class SFE_UBLOX_GNSS:
+    def __init__(self):
+        self.defaultMaxWait = 1100
+        self.i2cTransactionSize = 32
+        self.defaultMGAdelat = 7
+        self.defaultMGAINITIMEtAccS = 2
+        self.defaultMGAINITIMEtAccNs = 0
+        self.defaultMGAINITIMEsource = 0
+        self.defaultNavDBDMaxWait = 3100
+        
+
+    sfe_ublox_sentence_types_e = Enum('currentSentence', ['SFE_UBLOX_SENTENCE_TYPE_NONE','SFE_UBLOX_SENTENCE_TYPE_NMEA','SFE_UBLOX_SENTENCE_TYPE_UBX','SFE_UBLOX_SENTENCE_TYPE_RTCM'])
+    
+    def begin():
+        pass
+    
+    def setI2COutput(self,bus, address, output_protocol):
+        
+        # Configure the I2C port to output the specified protocol(s)
+
+        #:param bus: The I2C bus number (e.g. 1 for Raspberry Pi)
+        #:param address: The I2C address of the device (e.g. 0x42)
+        #:param output_protocol: A string specifying the protocol(s) to output, separated by commas (e.g. "UBX,NMEA" or "RTCM3,SPARTN")
+        
+        # Define the protocol codes
+        PROTOCOL_CODES = {
+            "UBX": 0x01,
+            "NMEA": 0x02,
+            "RTCM3": 0x04,
+            "SPARTN": 0x08
+        }
+
+        # Parse the output protocol string
+        protocols = [protocol.strip() for protocol in output_protocol.split(",")]
+        protocol_code = 0
+        for protocol in protocols:
+            if protocol in PROTOCOL_CODES:
+                protocol_code |= PROTOCOL_CODES[protocol]
+            else:
+                raise ValueError(f"Invalid protocol: {protocol}")
+
+        # Configure the I2C port using smbus
+        bus = i2c.smbus.SMBus(bus)
+        bus.write_byte(address, 0x00)  # CFG_PRT (I/O protocol configuration)
+        bus.write_byte(address, protocol_code)
+
+
+    def setNavigationFrecuency(self, freq):
+        self.navigationFrecuency = freq
+    
+    
+    def getPVT(self, bus, adress):
+        self.maxwait = self.defaultMaxWait
+        self.pvtBus = bus 
+        self.pvtAdress = adress
+        # Get the current PVT (position, velocity, time) data from the device
+        #Get the current PVT (position, velocity, time) data from the device
+
+        #:param bus: The I2C bus number (e.g. 1 for Raspberry Pi)
+        #:param address: The I2C address of the device (e.g. 0x42)
+        #:return: A dictionary containing the PVT data:
+        #   - `latitude`: Latitude in degrees (float)
+        #  - `longitude`: Longitude in degrees (float)
+        # - `altitude`: Altitude in meters (float)
+            #- `velocity_north`: Velocity in meters per second (float)
+            # `velocity_east`: Velocity in meters per second (float)
+            # `velocity_down`: Velocity in meters per second (float)
+            # `time`: Time in seconds since the epoch (int)
+        # Define the PVT data structure
+        PVT_DATA_STRUCT = struct.Struct("<iiiiiii")
+
+        # Read the PVT data from the device using smbus
+        Pvtbus = i2c.smbus.SMBus(bus)
+        pvt_data = Pvtbus.read_i2c_block_data(adress, 0x00, 28)  # NAV_PVT (PVT data)
+
+        # Unpack the PVT data
+        pvt_data_unpacked = PVT_DATA_STRUCT.unpack(bytes(pvt_data))
+
+        # Extract the PVT data fields
+        pvt_data_dict = {
+            "latitude": pvt_data_unpacked[0] / 1e7,  # degrees
+            "longitude": pvt_data_unpacked[1] / 1e7,  # degrees
+            "altitude": pvt_data_unpacked[2] / 1e3,  # meters
+            "velocity_north": pvt_data_unpacked[3] / 1e3,  # meters per second
+            "velocity_east": pvt_data_unpacked[4] / 1e3,  # meters per second
+            "velocity_down": pvt_data_unpacked[5] / 1e3,  # meters per second
+            "time": pvt_data_unpacked[6]  # seconds since the epoch
+        }
+        self.pvt_data_dictionary = pvt_data_dict
+        return pvt_data_dict
+
+    
+
+
+    def getLatitude(self):
+        self.maxwait = self.defaultMaxWait
+        return self.pvt_data_dictionary.get('latitude')
+        
+    def getLonguitude(self):
+        self.maxwait = self.defaultMaxWait
+        return self.pvt_data_dictionary.get('longitude')
+    def getAltitude(self):
+        self.maxwait = self.defaultMaxWait
+        return self.pvt_data_dictionary.get('altitude')
+        
+        

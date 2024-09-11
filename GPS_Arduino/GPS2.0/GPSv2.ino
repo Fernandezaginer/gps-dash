@@ -3,7 +3,6 @@
 
 #include <SparkFun_u-blox_GNSS_v3.h> //http://librarymanager/All#SparkFun_u-blox_GNSS_v3
 SFE_UBLOX_GNSS myGNSS;
-
 void setup()
 {
   delay(1000);
