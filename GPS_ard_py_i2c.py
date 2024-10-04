@@ -6,15 +6,18 @@ import time
 myGNSS = GNSS.SFE_UBLOX_GNSS()
 time.sleep(1)
 
+direccion_gps = 0x46
+
 #wire.begin()
-i2c = Wire.TwoWire(0x46)
+i2c = Wire.TwoWire(direccion_gps)
 i2c.begin()
 
 while True:
+    # coordenadas
     lat = myGNSS.getLatitude()
     alt = myGNSS.getAltitude()
     lon = myGNSS.getLonguitude()
-    
+   
     print("latitude:" + lat + "\n")
     print("altitude" + alt+ "\n")
     print("longuitude" + lon+ "\n")

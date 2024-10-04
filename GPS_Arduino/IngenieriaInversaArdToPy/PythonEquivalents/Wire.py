@@ -1,4 +1,4 @@
-import smbus2 as smbus
+import smbus2 as smbus #en windows falla porque no existe fnctl
 import time
 
 

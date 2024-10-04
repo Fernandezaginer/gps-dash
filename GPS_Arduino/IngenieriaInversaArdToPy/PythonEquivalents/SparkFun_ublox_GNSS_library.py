@@ -1,5 +1,5 @@
 
-import Wire as i2c
+import GPS_Arduino.IngenieriaInversaArdToPy.PythonEquivalents.Wire as i2c
 import u_blox_structs
 import u_blox_config_keys
 from enum import Enum
