@@ -1,7 +1,6 @@
 import csv
 import serial
-import pynmea2
-
+import pynmea2
 
 #Archivo CSV
 datos = open('data.csv',"w")
