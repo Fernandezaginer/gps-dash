@@ -1,6 +1,7 @@
 import csv
 import serial
 import pynmea2
+import Deploy
 
 
 #Archivo CSV
@@ -26,7 +27,7 @@ def read_gps_data():
             if position_data:
                 return position_data
 
-        
+
 
 def write_gps_data():
     position = read_gps_data()
@@ -45,6 +46,9 @@ if __name__ == "__main__":
     datos.write("DATOS DEL MODULO GPS\n")
     datos.write("LAT;LON;ALT;DIL\n")
     while True:
+        posAltitude = read_gps_data()
+        lat,lon,alt,hdil = posAltitude
+        Deploy.deploy(11,268.0,alt)
         write_gps_data()
 
 
