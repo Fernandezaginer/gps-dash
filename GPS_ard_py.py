@@ -19,7 +19,7 @@ def parse_nmea_sentence(sentence):
 
 
 def read_gps_data():
-    ser = serial.Serial('/COM3', 115200)
+    ser = serial.Serial('/dev/ttyACM0', 9600)
     while True:
         sentence = ser.readline().decode("utf-8").strip()
         if sentence.startswith("$GNGGA"):

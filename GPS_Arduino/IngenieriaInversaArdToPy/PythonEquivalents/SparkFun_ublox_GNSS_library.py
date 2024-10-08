@@ -1,5 +1,5 @@
 
-import Wire as i2c
+import GPS_Arduino.IngenieriaInversaArdToPy.PythonEquivalents.Wire as i2c
 import u_blox_structs
 import u_blox_config_keys
 from enum import Enum
@@ -557,10 +557,10 @@ class SFE_UBLOX_GNSS:
 
 
     # bool begin(TwoWire &wirePort = Wire, uint8_t deviceAddress = 0x42, uint16_t maxWait = defaultMaxWait, bool assumeSuccess = false); // Returns true if module is detected
-    def begin():
-        wire = i2c.TwoWire()
+    def begin(self,adress):
+        wire = i2c.TwoWire(adress)
         try:
-            wire.begin()
+            wire.begin(adress)
             return True
         except Exception as ex:
             return False
